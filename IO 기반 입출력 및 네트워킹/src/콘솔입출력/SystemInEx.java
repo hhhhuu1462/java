@@ -1,4 +1,4 @@
-package ÄÜ¼ÖÀÔÃâ·Â;
+package ì½˜ì†”ì…ì¶œë ¥;
 
 import java.io.InputStream;
 
@@ -6,31 +6,33 @@ public class SystemInEx {
 
 	public static void main(String[] args) throws Exception {
 
-		System.out.println("== ¸Ş´º ==");
-		System.out.println("1. ¿¹±İ Á¶È¸");
-		System.out.println("2. ¿¹±İ Ãâ±İ");
-		System.out.println("3. ¿¹±İ ÀÔ±İ");
-		System.out.println("4. Á¾·á ÇÏ±â");
-		System.out.print("5. ¸Ş´º¸¦ ¼±ÅÃÇÏ¼¼¿ä >> ");
+		System.out.println("== ë©”ë‰´ ==");
+		System.out.println("1. ì˜ˆê¸ˆ ì¡°íšŒ");
+		System.out.println("2. ì˜ˆê¸ˆ ì¶œê¸ˆ");
+		System.out.println("3. ì˜ˆê¸ˆ ì…ê¸ˆ");
+		System.out.println("4. ì¢…ë£Œ í•˜ê¸°");
+		System.out.print("5. ë©”ë‰´ë¥¼ ì„ íƒí•˜ì„¸ìš” >> ");
 
-		InputStream inputStream = System.in; // Å°º¸µå ÀÔ·Â ½ºÆ®¸² ¾ò±â
-		char inputChar = (char) inputStream.read(); // ¾Æ½ºÅ° ÄÚµå¸¦ ÀĞ°í ¹®ÀÚ·Î ¸®ÅÏ
+		InputStream inputStream = System.in; // í‚¤ë³´ë“œ ì…ë ¥ ìŠ¤íŠ¸ë¦¼ ì–»ê¸°
+		// ì½˜ì†”ì°½ì— ì§ì ‘ ì…ë ¥ ê°€ëŠ¥
+		char inputChar = (char) inputStream.read(); // ì•„ìŠ¤í‚¤ ì½”ë“œë¥¼ ì½ê³  ë¬¸ìë¡œ ë¦¬í„´
+		// í‚¤ë³´ë“œë¥¼ ì…ë ¥í•˜ê²Œ ë˜ë©´ ì•„ìŠ¤í‚¤ ì½”ë“œê°’ìœ¼ë¡œ ì½íˆê¸° ë•Œë¬¸ì— char í˜•ë³€í™˜ í•´ì£¼ì–´ì•¼ 
 
 		switch (inputChar) {
 		case '1' :
-			System.out.println("¿¹±İ Á¶È¸¸¦ ¼±ÅÃÇÏ¼Ì½À´Ï´Ù.");
+			System.out.println("ì˜ˆê¸ˆ ì¡°íšŒë¥¼ ì„ íƒí•˜ì…¨ìŠµë‹ˆë‹¤.");
 			break;
 		case '2' :
-			System.out.println("¿¹±İ Ãâ±İÀ» ¼±ÅÃÇÏ¼Ì½À´Ï´Ù.");
+			System.out.println("ì˜ˆê¸ˆ ì¶œê¸ˆì„ ì„ íƒí•˜ì…¨ìŠµë‹ˆë‹¤.");
 			break;
 		case '3' :
-			System.out.println("¿¹±İ ÀÔ±İÀ» ¼±ÅÃÇÏ¼Ì½À´Ï´Ù.");
+			System.out.println("ì˜ˆê¸ˆ ì…ê¸ˆì„ ì„ íƒí•˜ì…¨ìŠµë‹ˆë‹¤.");
 			break;
 		case '4' :
-			System.out.println("Á¾·á ÇÏ±â¸¦ ¼±ÅÃÇÏ¼Ì½À´Ï´Ù.");
+			System.out.println("ì¢…ë£Œ í•˜ê¸°ë¥¼ ì„ íƒí•˜ì…¨ìŠµë‹ˆë‹¤.");
 			break;
 		default :
-			System.out.println("Àß ¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù.");
+			System.out.println("ì˜ ëª» ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤.");
 		}
 
 	}
