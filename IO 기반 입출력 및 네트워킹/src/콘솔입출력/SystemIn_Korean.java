@@ -1,4 +1,4 @@
-package ÄÜ¼ÖÀÔÃâ·Â;
+package ì½˜ì†”ì…ì¶œë ¥;
 
 import java.io.InputStream;
 
@@ -6,22 +6,23 @@ public class SystemIn_Korean {
 
 	public static void main(String[] args) throws Exception {
 		
-		// ÄÜ¼Ö¿¡¼­ ÀÔ·ÂÇÑ ÇÑ±Û ¾Ë¾Æ³»±â
+		// ì½˜ì†”ì—ì„œ ì…ë ¥í•œ í•œê¸€ ì•Œì•„ë‚´ê¸°
 		InputStream inputStream = System.in;
+		// ì½˜ì†”ë¡œë¶€í„° ë°ì´í„° ì…ë ¥ë°›ê¸°
 		
 		byte[] datas = new byte[100];
 		
-		System.out.print("ÀÌ¸§ : ");
-		int nameBytes = inputStream.read(datas); // ½ÇÁ¦·Î ÀĞÀº ¹ÙÀÌÆ® ¼ö ÀúÀå
+		System.out.print("ì´ë¦„ : ");
+		int nameBytes = inputStream.read(datas); // ì‹¤ì œë¡œ ì½ì€ ë°”ì´íŠ¸ ìˆ˜ ì €ì¥
 		String name = new String(datas, 0, nameBytes-2);
-		// ³¡¿¡ 2¹ÙÀÌÆ®´Â enterÅ°¿¡ ÇØ´çÇÏ´Â Ä³¸®Áö¸®ÅÏ(13)°ú ¶óÀÎÇÇµå(10)ÀÌ¹Ç·Î ¹®ÀÚ¿­¿¡¼­ Á¦¿Ü
+		// ëì— 2ë°”ì´íŠ¸ëŠ” enterí‚¤ì— í•´ë‹¹í•˜ëŠ” ìºë¦¬ì§€ë¦¬í„´(13)ê³¼ ë¼ì¸í”¼ë“œ(10)ì´ë¯€ë¡œ ë¬¸ìì—´ì—ì„œ ì œì™¸
 		
-		System.out.print("ÇÏ°í ½ÍÀº¸» : ");
+		System.out.print("í•˜ê³  ì‹¶ì€ë§ : ");
 		int commentBytes = inputStream.read(datas);
 		String comment = new String(datas, 0, commentBytes-2);
 		
-		System.out.println("ÀÔ·ÂÇÑ ÀÌ¸§ : " + name);
-		System.out.println("ÀÔ·ÂÇÑ comment : " + comment);
+		System.out.println("ì…ë ¥í•œ ì´ë¦„ : " + name);
+		System.out.println("ì…ë ¥í•œ comment : " + comment);
 		
 	}
 	
