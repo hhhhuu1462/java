@@ -1,4 +1,4 @@
-package ³×Æ®¿öÅ©±âÃÊ.µ¥ÀÌÅÍº¸³»°í¹Ş±â;
+package ë„¤íŠ¸ì›Œí¬ê¸°ì´ˆ.ë°ì´í„°ë³´ë‚´ê³ ë°›ê¸°;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -17,28 +17,28 @@ public class ServerEx {
 			serverSocket.bind(new InetSocketAddress("localhost", 5007));
 
 			while (true) {
-				System.out.println("[¿¬°á ±â´Ù¸²]");
+				System.out.println("[ì—°ê²° ê¸°ë‹¤ë¦¼]");
 				Socket socket = serverSocket.accept();
 				InetSocketAddress isa = (InetSocketAddress) socket.getRemoteSocketAddress();
-				System.out.println("[¿¬°á ¼ö¶ôÇÔ] " + isa.getHostName());
+				System.out.println("[ì—°ê²° ìˆ˜ë½í•¨] " + isa.getHostName());
 
 				byte[] bytes = null;
 				String message = null;
 
-				// 2. ¼­¹ö°¡ ÀÌ µ¥ÀÌÅÍ¸¦ ¹Ş°í
+				// 2. ì„œë²„ê°€ ì´ ë°ì´í„°ë¥¼ ë°›ê³ 
 				InputStream is = socket.getInputStream();
 				bytes = new byte[100];
 				int readByteCount = is.read(bytes);
 				message = new String(bytes, 0, readByteCount, "UTF-8");
-				System.out.println("[µ¥ÀÌÅÍ ¹Ş±â ¼º°ø] : " + message);
+				System.out.println("[ë°ì´í„° ë°›ê¸° ì„±ê³µ] : " + message);
 
-				// 3. "Hello Client"¸¦ Å¬¶óÀÌ¾ğÆ®·Î º¸³»¸é
+				// 3. "Hello Client"ë¥¼ í´ë¼ì´ì–¸íŠ¸ë¡œ ë³´ë‚´ë©´
 				OutputStream os = socket.getOutputStream();
 				message = "Hello Client";
 				bytes = message.getBytes("UTF-8");
 				os.write(bytes);
 				os.flush();
-				System.out.println("[µ¥ÀÌÅÍ º¸³»±â ¼º°ø]");
+				System.out.println("[ë°ì´í„° ë³´ë‚´ê¸° ì„±ê³µ]");
 
 				is.close();
 				os.close();
@@ -57,11 +57,9 @@ public class ServerEx {
 }
 
 /*
-[¿¬°á ±â´Ù¸²]
-[¿¬°á ¼ö¶ôÇÔ] activate.adobe.com
-[µ¥ÀÌÅÍ ¹Ş±â ¼º°ø] : Hello Server
-[µ¥ÀÌÅÍ º¸³»±â ¼º°ø]
-[¿¬°á ±â´Ù¸²]
+[ì—°ê²° ê¸°ë‹¤ë¦¼]
+[ì—°ê²° ìˆ˜ë½í•¨] activate.adobe.com
+[ë°ì´í„° ë°›ê¸° ì„±ê³µ] : Hello Server
+[ë°ì´í„° ë³´ë‚´ê¸° ì„±ê³µ]
+[ì—°ê²° ê¸°ë‹¤ë¦¼]
 */
-
-
