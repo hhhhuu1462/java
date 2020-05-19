@@ -1,4 +1,4 @@
-package ÆÄÀÏ°úµğ·ºÅä¸®.°æ·ÎÁ¤ÀÇ;
+package íŒŒì¼ê³¼ë””ë ‰í† ë¦¬.ê²½ë¡œì •ì˜;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,18 +8,18 @@ public class PathEx {
 
 	public static void main(String[] args) {
 
-		// Path ÀÎÅÍÆäÀÌ½º
+		// Path ì¸í„°í˜ì´ìŠ¤
 
 		Path path = Paths.get("C:\\lhs\\git\\java\\Project\\src\\Ex01\\ManagerGUI.java");
-		System.out.println("[ÆÄÀÏ¸í] : " + path.getFileName());
-		System.out.println("[ºÎ¸ğ µğ·ºÅä¸®¸í] : " + path.getParent().getFileName());
-		System.out.println("[ÁßÃ¸ °æ·Î¼ö] : " + path.getNameCount());
+		System.out.println("[íŒŒì¼ëª…] : " + path.getFileName());
+		System.out.println("[ë¶€ëª¨ ë””ë ‰í† ë¦¬ëª…] : " + path.getParent().getFileName());
+		System.out.println("[ì¤‘ì²© ê²½ë¡œìˆ˜] : " + path.getNameCount());
 
 		System.out.println();
 
-		// ÁßÃ¸ °æ·Î¼ö ¸¸Å­ ¹İº¹
+		// ì¤‘ì²© ê²½ë¡œìˆ˜ ë§Œí¼ ë°˜ë³µ
 		for (int i = 0; i < path.getNameCount(); i++) {
-			// ÆÄÀÏÀÇ ÀÌ¸§ Ãâ·Â
+			// íŒŒì¼ì˜ ì´ë¦„ ì¶œë ¥
 			System.out.println(path.getName(i));
 		}
 
@@ -28,11 +28,9 @@ public class PathEx {
 		Iterator<Path> iterator = path.iterator();
 		while (iterator.hasNext()) {
 			Path temp = iterator.next();
-			System.out.println(temp.getFileName()); // ÆÄÀÏ ¶Ç´Â µğ·ºÅä¸® ÀÌ¸§¸¸ °¡Áø Path Ãâ·Â
+			System.out.println(temp.getFileName()); // íŒŒì¼ ë˜ëŠ” ë””ë ‰í† ë¦¬ ì´ë¦„ë§Œ ê°€ì§„ Path ì¶œë ¥
 		}
 
 	}
 
 }
-
-
