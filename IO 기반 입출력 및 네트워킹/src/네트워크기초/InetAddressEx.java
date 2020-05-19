@@ -1,4 +1,4 @@
-package ³×Æ®¿öÅ©±âÃÊ;
+package ë„¤íŠ¸ì›Œí¬ê¸°ì´ˆ;
 
 import java.net.InetAddress;
 
@@ -6,22 +6,22 @@ public class InetAddressEx {
 
 	public static void main(String[] args) throws Exception {
 		
-		// IP ÁÖ¼Ò ¾ò±â
+		// IP ì£¼ì†Œ ì–»ê¸°
 		
 		InetAddress local = InetAddress.getLocalHost();
-		System.out.println("³» ÄÄÇ»ÅÍÀÇ IP ÁÖ¼Ò : " + local.getHostAddress());
+		System.out.println("ë‚´ ì»´í“¨í„°ì˜ IP ì£¼ì†Œ : " + local.getHostAddress());
 		
 		InetAddress[] iaArr = InetAddress.getAllByName("www.naver.com");
 		for (InetAddress remote : iaArr) {
-			System.out.println("www.naver.com ÀÇ IP ÁÖ¼Ò : " + remote.getHostAddress());
+			System.out.println("www.naver.com ì˜ IP ì£¼ì†Œ : " + remote.getHostAddress());
 		}
 		
 	}
 	
 }
 
-/* °á°ú
-³» ÄÄÇ»ÅÍÀÇ IP ÁÖ¼Ò : 192.168.0.85
-www.naver.com ÀÇ IP ÁÖ¼Ò : 125.209.222.141
-www.naver.com ÀÇ IP ÁÖ¼Ò : 125.209.222.142
+/* ê²°ê³¼
+ë‚´ ì»´í“¨í„°ì˜ IP ì£¼ì†Œ : 192.168.0.85
+www.naver.com ì˜ IP ì£¼ì†Œ : 125.209.222.141
+www.naver.com ì˜ IP ì£¼ì†Œ : 125.209.222.142
 */
