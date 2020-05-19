@@ -1,4 +1,4 @@
-package ÆÄÀÏ°úµğ·ºÅä¸®.ÆÄÀÏ½Ã½ºÅÛÁ¤º¸;
+package íŒŒì¼ê³¼ë””ë ‰í† ë¦¬.íŒŒì¼ì‹œìŠ¤í…œì •ë³´;
 
 import java.nio.file.FileStore;
 import java.nio.file.FileSystem;
@@ -9,23 +9,23 @@ public class FileSystemEx {
 
 	public static void main(String[] args) throws Exception {
 
-		// ÆÄÀÏ ½Ã½ºÅÛ Á¤º¸ ¾ò±â
+		// íŒŒì¼ ì‹œìŠ¤í…œ ì •ë³´ ì–»ê¸°
 
 		FileSystem fileSystem = FileSystems.getDefault();
 
-		for (FileStore store : fileSystem.getFileStores()) { // µå¶óÀÌ¹ö Á¤º¸¸¦ °¡Áø FileStore °´Ã¼µéÀ» ¸®ÅÏ
-			System.out.println("µå¶óÀÌ¹ö¸í : " + store.name());	
-			System.out.println("ÆÄÀÏ½Ã½ºÅÛ : " + store.type());	
-			System.out.println("ÀüÃ¼ °ø°£ : " + store.getTotalSpace() + " ¹ÙÀÌÆ®");	
-			System.out.println("»ç¿ëÁßÀÎ °ø°£ : " + (store.getTotalSpace() - store.getUnallocatedSpace()) + " ¹ÙÀÌÆ®");	
-			System.out.println("»ç¿ë °¡´ÉÇÑ °ø°£ : " + store.getUsableSpace() + " ¹ÙÀÌÆ®");	
+		for (FileStore store : fileSystem.getFileStores()) { // ë“œë¼ì´ë²„ ì •ë³´ë¥¼ ê°€ì§„ FileStore ê°ì²´ë“¤ì„ ë¦¬í„´
+			System.out.println("ë“œë¼ì´ë²„ëª… : " + store.name());	
+			System.out.println("íŒŒì¼ì‹œìŠ¤í…œ : " + store.type());	
+			System.out.println("ì „ì²´ ê³µê°„ : " + store.getTotalSpace() + " ë°”ì´íŠ¸");	
+			System.out.println("ì‚¬ìš©ì¤‘ì¸ ê³µê°„ : " + (store.getTotalSpace() - store.getUnallocatedSpace()) + " ë°”ì´íŠ¸");	
+			System.out.println("ì‚¬ìš© ê°€ëŠ¥í•œ ê³µê°„ : " + store.getUsableSpace() + " ë°”ì´íŠ¸");	
 			System.out.println();	
 		}
 
-		System.out.println("ÆÄÀÏ ±¸ºĞÀÚ : " + fileSystem.getSeparator());
+		System.out.println("íŒŒì¼ êµ¬ë¶„ì : " + fileSystem.getSeparator());
 		System.out.println();
 
-		for (Path path : fileSystem.getRootDirectories()) { //·çÆ® µğ·ºÅä¸® Á¤º¸¸¦ °¡Áø Path °´Ã¼µéÀ» ¸®ÅÏ
+		for (Path path : fileSystem.getRootDirectories()) { //ë£¨íŠ¸ ë””ë ‰í† ë¦¬ ì •ë³´ë¥¼ ê°€ì§„ Path ê°ì²´ë“¤ì„ ë¦¬í„´
 			System.out.println(path.toString());			
 		}
 
