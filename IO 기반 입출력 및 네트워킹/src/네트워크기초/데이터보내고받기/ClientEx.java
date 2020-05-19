@@ -1,4 +1,4 @@
-package ³×Æ®¿öÅ©±âÃÊ.µ¥ÀÌÅÍº¸³»°í¹Ş±â;
+package ë„¤íŠ¸ì›Œí¬ê¸°ì´ˆ.ë°ì´í„°ë³´ë‚´ê³ ë°›ê¸°;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,27 +12,27 @@ public class ClientEx {
 		Socket socket = null;
 		try {
 			socket = new Socket();
-			System.out.println("[¿¬°á ¿äÃ»]");
+			System.out.println("[ì—°ê²° ìš”ì²­]");
 			socket.connect(new InetSocketAddress("localhost", 5007));
-			System.out.println("[¿¬°á ¼º°ø]");
+			System.out.println("[ì—°ê²° ì„±ê³µ]");
 
 			byte[] bytes = null;
 			String message = null;
 
-			// 1. Å¬¶óÀÌ¾ğÆ®°¡ ¸ÕÀú "Hello Server"¸¦ ¼­¹ö·Î º¸³½´Ù
+			// 1. í´ë¼ì´ì–¸íŠ¸ê°€ ë¨¼ì € "Hello Server"ë¥¼ ì„œë²„ë¡œ ë³´ë‚¸ë‹¤
 			OutputStream os = socket.getOutputStream();
 			message = "Hello Server";
 			bytes = message.getBytes("UTF-8");
 			os.write(bytes);
 			os.flush();
-			System.out.println("[µ¥ÀÌÅÍ º¸³»±â ¼º°ø]");
+			System.out.println("[ë°ì´í„° ë³´ë‚´ê¸° ì„±ê³µ]");
 
-			// 4. Å¬¶óÀÌ¾ğÆ®°¡ ÀÌ µ¥ÀÌÅÍ¸¦ ¹Ş´Â´Ù.
+			// 4. í´ë¼ì´ì–¸íŠ¸ê°€ ì´ ë°ì´í„°ë¥¼ ë°›ëŠ”ë‹¤.
 			InputStream is = socket.getInputStream();
 			bytes = new byte[100];
 			int readByteCount = is.read(bytes);
 			message = new String(bytes, 0, readByteCount, "UTF-8");
-			System.out.println("[µ¥ÀÌÅÍ ¹Ş±â ¼º°ø] : " + message);
+			System.out.println("[ë°ì´í„° ë°›ê¸° ì„±ê³µ] : " + message);
 
 			os.close();
 			is.close();
@@ -49,8 +49,9 @@ public class ClientEx {
 }
 
 /*
-[¿¬°á ¿äÃ»]
-[¿¬°á ¼º°ø]
-[µ¥ÀÌÅÍ º¸³»±â ¼º°ø]
-[µ¥ÀÌÅÍ ¹Ş±â ¼º°ø] : Hello Client
+[ì—°ê²° ìš”ì²­]
+[ì—°ê²° ì„±ê³µ]
+[ë°ì´í„° ë³´ë‚´ê¸° ì„±ê³µ]
+[ë°ì´í„° ë°›ê¸° ì„±ê³µ] : Hello Client
 */
+
