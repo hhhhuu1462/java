@@ -148,4 +148,3 @@ public class POSPanel extends JPanel {
 		});
 	}
 }
-
