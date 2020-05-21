@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.GridLayout;
 import java.awt.List;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Main extends JFrame {
 
@@ -108,6 +110,12 @@ public class Main extends JFrame {
 		JButton inventoryManagement = new JButton("재고관리");
 		panel4.add(inventoryManagement);
 		JButton sales = new JButton("매출");
+		sales.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Sales();
+			}
+		});
 		panel4.add(sales);		
 		JButton orderDetails = new JButton("주문내역");
 		panel4.add(orderDetails);		
@@ -115,6 +123,12 @@ public class Main extends JFrame {
 		panel4.add(coupon);		
 		JButton payment = new JButton("결제");
 		panel4.add(payment);		
+		payment.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showConfirmDialog(null, "결제하시겠습니까");				
+			}
+		});
 		JButton initialization = new JButton("초기화");
 		panel4.add(initialization);
 
