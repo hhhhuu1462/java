@@ -1,15 +1,14 @@
 package Cafe_Main;
 
 import javax.swing.*;
-import java.awt.GridLayout;
-import java.awt.List;
-import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 
 public class Main extends JFrame {
 
-	JTabbedPane t = new JTabbedPane();  //JTabbedPaneìƒì„±
+	JPanel panel1, panel2, panel3, panel4;
+	JButton[] HotCoffeeBtn, ICECoffeeBtn, ShakeFlatchinoBtn;
+
+	JTabbedPane menuTab = new JTabbedPane();  //JTabbedPane»ı¼º
 
 	public Main() {
 		super("Ezen Cafeteria");
@@ -17,128 +16,76 @@ public class Main extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 902, 563);
 		getContentPane().setLayout(null);
+		
+		launched();
+		ImageIcon img = new ImageIcon("C:/lhs/Pos/src/Pos/Â¯±¸.jpg");
+		setIconImage(img.getImage());
+		setResizable(false);
+		setVisible(true);
 
-		List list = new List();
-		list.setBounds(10, 21, 378, 374);
-		getContentPane().add(list);
+		// ÁÖ¹®¸ñ·Ï
+		List orderList = new List();
+		orderList.setBounds(10, 21, 378, 374);
+		getContentPane().add(orderList);
 
-		t.setBounds(394, 24, 476, 371);
-		getContentPane().add(t);
+	}
+	
+	public void launched() {
 
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(4, 4, 10, 10));		
-		JButton btnNewButton = new JButton("New button");
-		panel.add(btnNewButton);		
-		JButton btnNewButton_1 = new JButton("New button");
-		panel.add(btnNewButton_1);		
-		JButton btnNewButton_2 = new JButton("New button");
-		panel.add(btnNewButton_2);		
-		JButton btnNewButton_3 = new JButton("New button");
-		panel.add(btnNewButton_3);		
-		JButton btnNewButton_4 = new JButton("New button");
-		panel.add(btnNewButton_4);		
-		JButton btnNewButton_5 = new JButton("New button");
-		panel.add(btnNewButton_5);		
-		JButton btnNewButton_6 = new JButton("New button");
-		panel.add(btnNewButton_6);
-		JButton btnNewButton_7 = new JButton("New button");
-		panel.add(btnNewButton_7);		
-		JButton btnNewButton_8 = new JButton("New button");
-		panel.add(btnNewButton_8);		
-		JButton btnNewButton_9 = new JButton("New button");
-		panel.add(btnNewButton_9);				
-		JButton btnNewButton_10 = new JButton("New button");
-		panel.add(btnNewButton_10);
-		t.add("HotCoffee", panel);
+		// ¸Ş´ºÅÇ ¼³Á¤
+		menuTab.setBounds(394, 24, 476, 371);
+		getContentPane().add(menuTab);
 
-		JPanel panel2 = new JPanel();
+		// HotCoffeeBtn
+		panel1 = new JPanel();
+		panel1.setLayout(new GridLayout(4, 4, 10, 10));		
+		HotCoffeeBtn = new JButton[11];
+		String[] HotCoffee = {"¾Æ¸Ş¸®Ä«³ë", "Ä«Æä¶ó¶¼", "Ä«Æä¸ğÄ«", "¹Ù´Ò¶ó¶ó¶¼", "Ä«ÇªÄ¡³ë", "", "", "", "", "", ""};
+		for (int i = 0; i < HotCoffeeBtn.length; i++) {
+			HotCoffeeBtn[i] = new JButton(HotCoffee[i]);
+			panel1.add(HotCoffeeBtn[i]);
+		}
+		menuTab.add("HotCoffee", panel1);
+
+		
+		// ICECoffeeBtn
+		panel2 = new JPanel();
 		panel2.setLayout(new GridLayout(4, 4, 10, 10));	
-		JButton btnNewButton11 = new JButton("New button");
-		panel2.add(btnNewButton11);		
-		JButton btnNewButton_12 = new JButton("New button");
-		panel2.add(btnNewButton_12);		
-		JButton btnNewButton_13 = new JButton("New button");
-		panel2.add(btnNewButton_13);		
-		JButton btnNewButton_14 = new JButton("New button");
-		panel2.add(btnNewButton_14);		
-		JButton btnNewButton_15 = new JButton("New button");
-		panel2.add(btnNewButton_15);		
-		JButton btnNewButton_16 = new JButton("New button");
-		panel2.add(btnNewButton_16);		
-		JButton btnNewButton_17 = new JButton("New button");
-		panel2.add(btnNewButton_17);
-		JButton btnNewButton_18 = new JButton("New button");
-		panel2.add(btnNewButton_18);		
-		JButton btnNewButton_19 = new JButton("New button");
-		panel2.add(btnNewButton_19);		
-		JButton btnNewButton_20 = new JButton("New button");
-		panel2.add(btnNewButton_20);				
-		JButton btnNewButton_21 = new JButton("New button");
-		panel2.add(btnNewButton_21);
-		t.add("IceCoffee", panel2);
+		ICECoffeeBtn = new JButton[11];
+		String[] ICECoffee = {"ICE¾Æ¸Ş¸®Ä«³ë", "ICEÄ«Æä¶ó¶¼", "ICEÄ«Æä¸ğÄ«", "ICE¹Ù´Ò¶ó¶ó¶¼", "ICEÄ«ÇªÄ¡³ë", "", "", "", "", "", ""};
+		for (int i = 0; i < ICECoffeeBtn.length; i++) {
+			ICECoffeeBtn[i] = new JButton(ICECoffee[i]);
+			panel2.add(ICECoffeeBtn[i]);
+		}
+		menuTab.add("IceCoffee", panel2);
 
-		JPanel panel3 = new JPanel();
+		// ShakeFlatchinoBtn
+		panel3 = new JPanel();
 		panel3.setLayout(new GridLayout(4, 4, 10, 10));	
-		JButton btnNewButton22 = new JButton("New button");
-		panel3.add(btnNewButton22);		
-		JButton btnNewButton_23 = new JButton("New button");
-		panel3.add(btnNewButton_23);		
-		JButton btnNewButton_24 = new JButton("New button");
-		panel3.add(btnNewButton_24);		
-		JButton btnNewButton_25 = new JButton("New button");
-		panel3.add(btnNewButton_25);		
-		JButton btnNewButton_26 = new JButton("New button");
-		panel3.add(btnNewButton_26);		
-		JButton btnNewButton_27 = new JButton("New button");
-		panel3.add(btnNewButton_27);		
-		JButton btnNewButton_28 = new JButton("New button");
-		panel3.add(btnNewButton_28);
-		JButton btnNewButton_29 = new JButton("New button");
-		panel3.add(btnNewButton_29);		
-		JButton btnNewButton_30 = new JButton("New button");
-		panel3.add(btnNewButton_30);		
-		JButton btnNewButton_31 = new JButton("New button");
-		panel3.add(btnNewButton_31);				
-		JButton btnNewButton_32 = new JButton("New button");
-		panel3.add(btnNewButton_32);
-		t.add("ì‰ì´í¬/í”Œë«ì¹˜ë…¸", panel3);
+		ShakeFlatchinoBtn = new JButton[11];
+		String[] ShakeFlatchino = {"¿À¸®Áø½¦ÀÌÅ©", "µş±â½¦ÀÌÅ©", "ÃÊÄÚÄíÅ°½¦ÀÌÅ©", "ÃÊÄÚ¹¯°í´õºí<br>½¦ÀÌÅ©", "Ä¡Áî°¡ÄíÅ°Çß´ë<br>½¦ÀÌÅ©", 
+				"¿äÄ¿Æ®ÇÃ·§Ä¡³ë", "µş±âÇÃ·§Ä¡³ë", "ºí·çº£¸®¿ä°ÅÆ®<br>ÇÃ·§Ä¡³ë", "²Üº¹¼ş¾ÆÇÃ·§Ä¡³ë", "", ""};
+		for (int i = 0; i < ShakeFlatchinoBtn.length; i++) {
+			ShakeFlatchinoBtn[i] = new JButton("<html> <center> " + ShakeFlatchino[i] + "</center> </html>");
+			panel3.add(ShakeFlatchinoBtn[i]);
+		}
+		menuTab.add("Beverage", panel3);
 
-		Panel panel4 = new Panel();
+		// ¿î¿µ¹öÆ°
+		panel4 = new JPanel();
 		panel4.setBounds(10, 410, 860, 85);
 		getContentPane().add(panel4);
 		panel4.setLayout(new GridLayout(1, 6, 10, 10));		
-		JButton inventoryManagement = new JButton("ì¬ê³ ê´€ë¦¬");
-		panel4.add(inventoryManagement);
-		JButton sales = new JButton("ë§¤ì¶œ");
-		sales.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new Sales();
-			}
-		});
-		panel4.add(sales);		
-		JButton orderDetails = new JButton("ì£¼ë¬¸ë‚´ì—­");
-		panel4.add(orderDetails);		
-		JButton coupon = new JButton("ì¿ í°");
-		panel4.add(coupon);		
-		JButton payment = new JButton("ê²°ì œ");
-		panel4.add(payment);		
-		payment.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showConfirmDialog(null, "ê²°ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ");				
-			}
-		});
-		JButton initialization = new JButton("ì´ˆê¸°í™”");
-		panel4.add(initialization);
+		String[] operation = {"Àç°í°ü¸®", "¸ÅÃâ", "ÁÖ¹®³»¿ª", "ÄíÆù", "°áÁ¦", "ÃÊ±âÈ­"};
+		JButton[] inventoryManagement = new JButton[6];
+		for (int i = 0; i < inventoryManagement.length; i++) {
+			inventoryManagement[i] = new JButton(operation[i]);
+			panel4.add(inventoryManagement[i]);
+		}
 
 	}
 
 	public static void main(String[] args) {
 		Main frame = new Main();
-		ImageIcon img = new ImageIcon("C:/lhs/Pos/src/Pos/ì§±êµ¬.jpg");
-		frame.setIconImage(img.getImage());
-		frame.setResizable(false);
-		frame.setVisible(true);
 	}
 }

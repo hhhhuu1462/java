@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files/Java/jre1.8.0_241/lib/ext/jfxrt.jar" sourcepath="C:/Program Files/Java/jdk1.8.0_241/src.zip"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="자바의정석/src"/>
+	<classpathentry kind="src" path="Coffee"/>
+	<classpathentry kind="src" path="Coffee1"/>
+	<classpathentry excluding="네트워크기초/연결요청_수락/|보조스트림/SerialVersionUID/|입출력스트림/|콘솔입출력/|보조스트림/WriteObject_ReadObject/|보조스트림/" kind="src" path="IO 기반 입출력 및 네트워킹/src"/>
+	<classpathentry kind="src" path="IO 기반 입출력 및 네트워킹/src/네트워크기초/연결요청_수락"/>
+	<classpathentry excluding="SerialVersionUID/|WriteObject_ReadObject/" kind="src" path="IO 기반 입출력 및 네트워킹/src/보조스트림"/>
+	<classpathentry kind="src" path="IO 기반 입출력 및 네트워킹/src/보조스트림/SerialVersionUID"/>
+	<classpathentry kind="src" path="IO 기반 입출력 및 네트워킹/src/보조스트림/WriteObject_ReadObject"/>
+	<classpathentry kind="src" path="IO 기반 입출력 및 네트워킹/src/입출력스트림"/>
+	<classpathentry kind="src" path="IO 기반 입출력 및 네트워킹/src/콘솔입출력"/>
+	<classpathentry kind="src" path="Lambda"/>
+	<classpathentry kind="src" path="NIO 기반 입출력 및 네트워킹"/>
+	<classpathentry kind="src" path="Project/src"/>
+	<classpathentry kind="src" path="Projects"/>
+	<classpathentry kind="src" path="SWING/src"/>
+	<classpathentry kind="lib" path="C:/oraclexe/app/oracle/product/11.2.0/server/jdbc/lib/ojdbc6.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

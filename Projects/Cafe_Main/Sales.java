@@ -4,8 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Sales extends JFrame {
+	
+	String[] title = { "No", "상품명", "수량", "단가", "금액" };
+
 
 	public Sales() {
+		super("매출목록");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 340);
 		getContentPane().setLayout(null);
