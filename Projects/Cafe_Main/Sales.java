@@ -5,11 +5,11 @@ import java.awt.*;
 
 public class Sales extends JFrame {
 	
-	String[] title = { "No", "ìƒí’ˆëª…", "ìˆ˜ëŸ‰", "ë‹¨ê°€", "ê¸ˆì•¡" };
+	String[] title = { "No", "»óÇ°¸í", "¼ö·®", "´Ü°¡", "±İ¾×" };
 
 
 	public Sales() {
-		super("ë§¤ì¶œëª©ë¡");
+		super("¸ÅÃâ¸ñ·Ï");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 340);
 		getContentPane().setLayout(null);

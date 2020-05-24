@@ -1,7 +1,10 @@
 package Cafe_Main;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Main extends JFrame {
 
@@ -9,30 +12,43 @@ public class Main extends JFrame {
 	JButton[] HotCoffeeBtn, ICECoffeeBtn, ShakeFlatchinoBtn;
 
 	JTabbedPane menuTab = new JTabbedPane();  //JTabbedPane생성
+	
+	String [] ColName = {"메뉴","수량","가격"};
+	String [][] Data ;
+	
+	int count =1;
+	DefaultTableModel model = new DefaultTableModel(Data,ColName);
+	JTable table = new JTable(model);
+
+	class Screen extends JPanel{
+		Screen(){
+			setBackground(Color.WHITE);
+			setBounds(10, 15, 378, 371);
+			DefaultTableModel m = (DefaultTableModel)table.getModel();
+			table.setRowHeight(25);
+			table.getTableHeader().setFont(new Font("맑은고딕", Font.BOLD, 15));
+			add(new JScrollPane(table));
+		}
+	}
+
 
 	public Main() {
 		super("Ezen Cafeteria");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 902, 563);
-		getContentPane().setLayout(null);
-		
+
 		launched();
-		ImageIcon img = new ImageIcon("C:/lhs/Pos/src/Pos/짱구.jpg");
+
+		ImageIcon img = new ImageIcon("C:/lhs/Project/src/Cafe_Main/짱구.jpg");
 		setIconImage(img.getImage());
 		setResizable(false);
 		setVisible(true);
-
-		// 주문목록
-		List orderList = new List();
-		orderList.setBounds(10, 21, 378, 374);
-		getContentPane().add(orderList);
-
 	}
 	
 	public void launched() {
-
-		// 메뉴탭 설정
+		getContentPane().setLayout(null);
+		
 		menuTab.setBounds(394, 24, 476, 371);
 		getContentPane().add(menuTab);
 
@@ -47,7 +63,6 @@ public class Main extends JFrame {
 		}
 		menuTab.add("HotCoffee", panel1);
 
-		
 		// ICECoffeeBtn
 		panel2 = new JPanel();
 		panel2.setLayout(new GridLayout(4, 4, 10, 10));	
@@ -81,6 +96,22 @@ public class Main extends JFrame {
 		for (int i = 0; i < inventoryManagement.length; i++) {
 			inventoryManagement[i] = new JButton(operation[i]);
 			panel4.add(inventoryManagement[i]);
+		}
+		
+		// 메뉴추가 테이블
+		Screen sc = new Screen();
+		add(sc);		
+		
+		for(int i=0;i<HotCoffeeBtn.length;i++) {
+			final int index =i;
+			HotCoffeeBtn[i].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JButton MBtn = (JButton)e.getSource();
+					DefaultTableModel m = (DefaultTableModel)table.getModel();
+					m.addRow(new Object[]{HotCoffee[index]});
+				}
+			});
 		}
 
 	}
