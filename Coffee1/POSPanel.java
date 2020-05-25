@@ -8,10 +8,10 @@ public class POSPanel extends JPanel {
 	JButton[] MBtn = new JButton[16];
 	
 	String[] menu = {
-			"ì•„ë©”ë¦¬ì¹´ë…¸","ICEì•„ë©”ë¦¬ì¹´ë…¸","ì¹´í˜ë¼ë–¼","ICEì¹´í˜ë¼ë–¼",
-			"ì¹´í˜ëª¨ì¹´","ì¹´í‘¸ì¹˜ë…¸","ë°”ë‹ë¼ë¼ë–¼","ICEë°”ë‹ë¼ë¼ë–¼",
-			"ë…¹ì°¨ë¼ë–¼","ì•„ì´ìŠ¤í‹°","ìëª½ì—ì´ë“œ","ì²­í¬ë„ì—ì´ë“œ",
-			"ë”¸ê¸°ìŠ¤ë¬´ë””","ë¸”ë£¨ë² ë¦¬ìŠ¤ë¬´ë””","ë ˆëª¬í‹°","ìœ ìì°¨"};
+			"¾Æ¸Ş¸®Ä«³ë","ICE¾Æ¸Ş¸®Ä«³ë","Ä«Æä¶ó¶¼","ICEÄ«Æä¶ó¶¼",
+			"Ä«Æä¸ğÄ«","Ä«ÇªÄ¡³ë","¹Ù´Ò¶ó¶ó¶¼","ICE¹Ù´Ò¶ó¶ó¶¼",
+			"³ìÂ÷¶ó¶¼","¾ÆÀÌ½ºÆ¼","ÀÚ¸ù¿¡ÀÌµå","Ã»Æ÷µµ¿¡ÀÌµå",
+			"µş±â½º¹«µğ","ºí·çº£¸®½º¹«µğ","·¹¸óÆ¼","À¯ÀÚÂ÷"};
 	
 	int[] price = {
 			1500,1800,2500,2500,
@@ -22,8 +22,8 @@ public class POSPanel extends JPanel {
 	JTextField tf = new JTextField(30);
 	JButton[] SBtn = new JButton[4];
 	
-	String[] Str = {"ì¿ í°","ì„ íƒì·¨ì†Œ","ì „ì²´ì·¨ì†Œ","ê²°ì œ"};
-	String [] ColName = {"ë©”ë‰´","ìˆ˜ëŸ‰","ê°€ê²©"};
+	String[] Str = {"ÄíÆù","¼±ÅÃÃë¼Ò","ÀüÃ¼Ãë¼Ò","°áÁ¦"};
+	String [] ColName = {"¸Ş´º","¼ö·®","°¡°İ"};
 	String [][] Data ;
 	
 	int count =1;
@@ -35,7 +35,7 @@ public class POSPanel extends JPanel {
 			setBackground(Color.WHITE);
 			DefaultTableModel m = (DefaultTableModel)table.getModel();
 			table.setRowHeight(50);
-			table.getTableHeader().setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 15));
+			table.getTableHeader().setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
 			add(new JScrollPane(table));
 		}
 	}
@@ -45,7 +45,7 @@ public class POSPanel extends JPanel {
 			setLayout(new GridLayout(6,3,3,3));
 			setBackground(Color.WHITE);
 			for(int i=0;i<MBtn.length;i++) {
-				MBtn[i]= new JButton( "<html> <center> " +menu[i] + "<br>" + price[i] + "ì› </center> </br> </html>" );
+				MBtn[i]= new JButton( "<html> <center> " +menu[i] + "<br>" + price[i] + "¿ø </center> </br> </html>" );
 				add(MBtn[i]);
 			}
 		}
@@ -70,7 +70,7 @@ public class POSPanel extends JPanel {
 		StrBtn sbtn = new StrBtn();
 		Screen sc = new Screen();
 		
-		//ê¸ˆì•¡ë€
+		//±İ¾×¶õ
 		tf.setSize(450, 70);
 		tf.setLocation(50, 480);
 		add(tf);
@@ -87,7 +87,7 @@ public class POSPanel extends JPanel {
 		sbtn.setLocation(530, 480);
 		add(sbtn);
 		
-		//ë©”ë‰´ì¶”ê°€
+		//¸Ş´ºÃß°¡
 		for(int i=0;i<MBtn.length;i++) {
 			final int index =i;
 			MBtn[i].addActionListener(new ActionListener() {
@@ -99,7 +99,7 @@ public class POSPanel extends JPanel {
 				}
 			});
 		}
-		//ì¿ í°
+		//ÄíÆù
 		SBtn[0].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -108,7 +108,7 @@ public class POSPanel extends JPanel {
 			}
 		});
 		
-			//ì„ íƒì·¨ì†Œ
+			//¼±ÅÃÃë¼Ò
 		SBtn[1].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -120,7 +120,7 @@ public class POSPanel extends JPanel {
 		});
 		
 		
-		//ì „ì²´ì·¨ì†Œ
+		//ÀüÃ¼Ãë¼Ò
 		SBtn[2].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -132,7 +132,7 @@ public class POSPanel extends JPanel {
 			}
 		});
 		
-		//ê²°ì œë²„íŠ¼
+		//°áÁ¦¹öÆ°
 		SBtn[3].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -142,8 +142,8 @@ public class POSPanel extends JPanel {
 				for(int i=0;i<rowCont;i++) {
 					sum += (int)table.getValueAt(i, 2);
 				}
-				tf.setText(String.valueOf(" ì´ ê¸ˆì•¡ : "+sum));
-				tf.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 40));
+				tf.setText(String.valueOf(" ÃÑ ±İ¾× : "+sum));
+				tf.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 40));
 			}
 		});
 	}

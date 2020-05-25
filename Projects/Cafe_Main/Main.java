@@ -2,35 +2,27 @@ package Cafe_Main;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
 
 public class Main extends JFrame {
 
-	JPanel panel1, panel2, panel3, panel4;
-	JButton[] HotCoffeeBtn, ICECoffeeBtn, ShakeFlatchinoBtn;
+	JPanel panel1, panel2, panel3, panel4, panel5;
+	static JButton[] HotCoffeeBtn, ICECoffeeBtn, ShakeFlatchinoBtn;
 
-	JTabbedPane menuTab = new JTabbedPane();  //JTabbedPane생성
-	
+	static JTabbedPane menuTab = new JTabbedPane();  //JTabbedPane생성
+
 	String [] ColName = {"메뉴","수량","가격"};
-	String [][] Data ;
-	
+	String [][] Data ;	
 	int count =1;
 	DefaultTableModel model = new DefaultTableModel(Data,ColName);
-	JTable table = new JTable(model);
-
-	class Screen extends JPanel{
-		Screen(){
-			setBackground(Color.WHITE);
-			setBounds(10, 15, 378, 371);
-			DefaultTableModel m = (DefaultTableModel)table.getModel();
-			table.setRowHeight(25);
-			table.getTableHeader().setFont(new Font("맑은고딕", Font.BOLD, 15));
-			add(new JScrollPane(table));
-		}
-	}
-
+	JTable menuTable = new JTable(model);
+	JScrollPane menuScroll = new JScrollPane();
 
 	public Main() {
 		super("Ezen Cafeteria");
@@ -45,10 +37,10 @@ public class Main extends JFrame {
 		setResizable(false);
 		setVisible(true);
 	}
-	
+
 	public void launched() {
 		getContentPane().setLayout(null);
-		
+
 		menuTab.setBounds(394, 24, 476, 371);
 		getContentPane().add(menuTab);
 
@@ -60,6 +52,9 @@ public class Main extends JFrame {
 		for (int i = 0; i < HotCoffeeBtn.length; i++) {
 			HotCoffeeBtn[i] = new JButton(HotCoffee[i]);
 			panel1.add(HotCoffeeBtn[i]);
+			if(HotCoffee[i].equals("")) {
+				HotCoffeeBtn[i].setEnabled(false);
+			}			
 		}
 		menuTab.add("HotCoffee", panel1);
 
@@ -71,6 +66,9 @@ public class Main extends JFrame {
 		for (int i = 0; i < ICECoffeeBtn.length; i++) {
 			ICECoffeeBtn[i] = new JButton(ICECoffee[i]);
 			panel2.add(ICECoffeeBtn[i]);
+			if(ICECoffee[i].equals("")) {
+				ICECoffeeBtn[i].setEnabled(false);
+			}
 		}
 		menuTab.add("IceCoffee", panel2);
 
@@ -78,38 +76,58 @@ public class Main extends JFrame {
 		panel3 = new JPanel();
 		panel3.setLayout(new GridLayout(4, 4, 10, 10));	
 		ShakeFlatchinoBtn = new JButton[11];
-		String[] ShakeFlatchino = {"오리진쉐이크", "딸기쉐이크", "초코쿠키쉐이크", "초코묻고더블<br>쉐이크", "치즈가쿠키했대<br>쉐이크", 
-				"요커트플랫치노", "딸기플랫치노", "블루베리요거트<br>플랫치노", "꿀복숭아플랫치노", "", ""};
+		String[] ShakeFlatchino = {"오리진쉐이크", "딸기쉐이크", "초코쿠키쉐이크", "<html>초코묻고더블<br>쉐이크</html>", "<html>치즈가쿠키했대<br>쉐이크</html>", 
+				"요커트플랫치노", "딸기플랫치노", "<html>블루베리요거트<br>플랫치노</html>", "꿀복숭아플랫치노", "", ""};
 		for (int i = 0; i < ShakeFlatchinoBtn.length; i++) {
 			ShakeFlatchinoBtn[i] = new JButton("<html> <center> " + ShakeFlatchino[i] + "</center> </html>");
 			panel3.add(ShakeFlatchinoBtn[i]);
+			if(ShakeFlatchino[i].equals("")) {
+				ShakeFlatchinoBtn[i].setEnabled(false);
+			}
 		}
 		menuTab.add("Beverage", panel3);
 
 		// 운영버튼
 		panel4 = new JPanel();
-		panel4.setBounds(10, 410, 860, 85);
+		panel4.setBounds(394, 410, 476, 85);
 		getContentPane().add(panel4);
 		panel4.setLayout(new GridLayout(1, 6, 10, 10));		
-		String[] operation = {"재고관리", "매출", "주문내역", "쿠폰", "결제", "초기화"};
-		JButton[] inventoryManagement = new JButton[6];
+		String[] operation = {"", "", ""};
+		JButton[] inventoryManagement = new JButton[3];
 		for (int i = 0; i < inventoryManagement.length; i++) {
 			inventoryManagement[i] = new JButton(operation[i]);
 			panel4.add(inventoryManagement[i]);
 		}
-		
-		// 메뉴추가 테이블
-		Screen sc = new Screen();
-		add(sc);		
-		
+
+		// 주문리스트
+		menuTable.setRowHeight(38);
+		menuScroll.setViewportView(menuTable);
+		menuScroll.setBounds(26, 24, 353, 238);
+		getContentPane().add(menuScroll);
 		for(int i=0;i<HotCoffeeBtn.length;i++) {
 			final int index =i;
 			HotCoffeeBtn[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JButton MBtn = (JButton)e.getSource();
-					DefaultTableModel m = (DefaultTableModel)table.getModel();
-					m.addRow(new Object[]{HotCoffee[index]});
+					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
+					m.addRow(new Object[]{HotCoffee[index],count});
+				}
+			});
+			ICECoffeeBtn[i].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JButton MBtn = (JButton)e.getSource();
+					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
+					m.addRow(new Object[]{ICECoffee[index],count});
+				}
+			});
+			ShakeFlatchinoBtn[i].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JButton MBtn = (JButton)e.getSource();
+					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
+					m.addRow(new Object[]{ShakeFlatchino[index],count});
 				}
 			});
 		}
@@ -118,5 +136,23 @@ public class Main extends JFrame {
 
 	public static void main(String[] args) {
 		Main frame = new Main();
+		PopupMenu pMenu = new PopupMenu();
+		MenuItem miCut = new MenuItem("생성");
+		MenuItem miCopy = new MenuItem("수정");
+		MenuItem miPaste = new MenuItem("삭제");
+		pMenu.add(miCut);
+		pMenu.add(miCopy);
+		pMenu.add(miPaste);
+		frame.add(pMenu);
+		menuTab.add(pMenu);
+		frame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if(e.getModifiers()==MouseEvent.BUTTON3_MASK){
+					pMenu.show(frame, e.getX(), e.getY());		
+				}}
+			});
+		
+
 	}
 }
