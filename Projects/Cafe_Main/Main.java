@@ -12,7 +12,9 @@ import java.awt.event.WindowAdapter;
 
 public class Main extends JFrame {
 
-	JPanel panel1, panel2, panel3, panel4, panel5;
+	JTextField tf = new JTextField(30);
+
+	JPanel panel1, panel2, panel3, panel4, panel5, panel6;
 	static JButton[] HotCoffeeBtn, ICECoffeeBtn, ShakeFlatchinoBtn;
 
 	static JTabbedPane menuTab = new JTabbedPane();  //JTabbedPane생성
@@ -20,6 +22,7 @@ public class Main extends JFrame {
 	String [] ColName = {"메뉴","수량","가격"};
 	String [][] Data ;	
 	int count =1;
+
 	DefaultTableModel model = new DefaultTableModel(Data,ColName);
 	JTable menuTable = new JTable(model);
 	JScrollPane menuScroll = new JScrollPane();
@@ -32,7 +35,7 @@ public class Main extends JFrame {
 
 		launched();
 
-		ImageIcon img = new ImageIcon("C:/lhs/Project/src/Cafe_Main/짱구.jpg");
+		ImageIcon img = new ImageIcon("C:\\git!\\java\\Projects\\Cafe_Main\\짱구.jpg");
 		setIconImage(img.getImage());
 		setResizable(false);
 		setVisible(true);
@@ -89,20 +92,60 @@ public class Main extends JFrame {
 
 		// 운영버튼
 		panel4 = new JPanel();
-		panel4.setBounds(394, 410, 476, 85);
+		panel4.setBounds(26, 410, 844, 85);
 		getContentPane().add(panel4);
 		panel4.setLayout(new GridLayout(1, 6, 10, 10));		
-		String[] operation = {"", "", ""};
-		JButton[] inventoryManagement = new JButton[3];
+		String[] operation = {"매출", "영수증", "결제", "쿠폰", "선택취소", "전체취소"};
+		JButton[] inventoryManagement = new JButton[6];
 		for (int i = 0; i < inventoryManagement.length; i++) {
 			inventoryManagement[i] = new JButton(operation[i]);
 			panel4.add(inventoryManagement[i]);
 		}
+		//매출목록
+		inventoryManagement[0].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Sales();						
+			}
+		});
+		//결제
+		inventoryManagement[2].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JButton MBtn = (JButton)e.getSource();
+				int rowCont = menuTable.getRowCount();
+				int sum =0;
+				for(int i=0;i<rowCont;i++) {
+					sum += (int)menuTable.getValueAt(i, 2);
+				}
+				tf.setText(String.valueOf(" 총 금액 : "+sum));
+				tf.setFont(new Font("맑은고딕", Font.BOLD, 40));
+			}
+		});
+		// 선택취소
+		inventoryManagement[4].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JButton MBtn = (JButton)e.getSource();
+				DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
+				m.removeRow(menuTable.getSelectedRow());
+			}
+		});
+		// 전체취소
+		inventoryManagement[5].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JButton MBtn = (JButton)e.getSource();
+				DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
+				m.setRowCount(0);
+				tf.setText(String.valueOf(""));
+			}
+		});
 
 		// 주문리스트
 		menuTable.setRowHeight(38);
 		menuScroll.setViewportView(menuTable);
-		menuScroll.setBounds(26, 24, 353, 238);
+		menuScroll.setBounds(26, 24, 353, 247);
 		getContentPane().add(menuScroll);
 		for(int i=0;i<HotCoffeeBtn.length;i++) {
 			final int index =i;
@@ -132,6 +175,13 @@ public class Main extends JFrame {
 			});
 		}
 
+		// 총 금액
+		panel6 = new JPanel();
+		panel6.setBounds(26, 277, 353, 117);
+		getContentPane().add(panel6);
+		panel6.setLayout(null);
+		tf.setBounds(0, 0, 353, 117);
+		panel6.add(tf);		
 	}
 
 	public static void main(String[] args) {
@@ -151,8 +201,8 @@ public class Main extends JFrame {
 				if(e.getModifiers()==MouseEvent.BUTTON3_MASK){
 					pMenu.show(frame, e.getX(), e.getY());		
 				}}
-			});
-		
+		});
+
 
 	}
 }
