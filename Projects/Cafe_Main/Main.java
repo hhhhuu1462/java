@@ -5,7 +5,7 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Main extends JFrame {
+public class Main extends JFrame { 
 	private static final long serialVersionUID = -2979632338990090898L;
 	
 	JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
@@ -41,7 +41,6 @@ public class Main extends JFrame {
 
 	public void launched() {
 		getContentPane().setLayout(null);
-
 		menuTab.setBounds(394, 24, 476, 371);
 		getContentPane().add(menuTab);
 
@@ -130,6 +129,22 @@ public class Main extends JFrame {
 			}
 		});
 		
+		// 할인
+		inventoryManagement[3].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JButton MBtn = (JButton)e.getSource();
+				Discount discount = new Discount();
+				discount.btn10.addActionListener(new ActionListener() {					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						menuTable.setValueAt(menuTable.getValueAt(menuTable.getSelectedRow(), 2) * 0.9, menuTable.getSelectedRow(), 2);
+						discount.dispose();
+					}
+				});
+			}
+		});
+		
 		// 선택취소
 		inventoryManagement[4].addActionListener(new ActionListener() {
 			@Override
@@ -153,8 +168,8 @@ public class Main extends JFrame {
 
 		// 주문리스트
 		menuTable.setRowHeight(38);
-		menuScroll.setViewportView(menuTable);
 		menuScroll.setBounds(26, 24, 353, 247);
+		menuScroll.setViewportView(menuTable);
 		getContentPane().add(menuScroll);
 		for(int i=0;i<HotCoffeeBtn.length;i++) {
 			final int index =i;
@@ -185,6 +200,7 @@ public class Main extends JFrame {
 		}
 		
 		// 수량 증가
+		
 	
 		// 총 금액
 		panel6 = new JPanel();
