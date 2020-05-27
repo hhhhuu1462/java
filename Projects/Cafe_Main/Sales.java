@@ -3,8 +3,6 @@ package Cafe_Main;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import java.awt.*;
-
 public class Sales extends JFrame {
 	
 	String[] title = { "No", "상품명", "수량", "단가", "금액" };
