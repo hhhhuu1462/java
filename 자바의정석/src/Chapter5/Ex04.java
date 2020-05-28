@@ -1,8 +1,10 @@
 package Chapter5;
 
+import javax.servlet.http.HttpServletRequest
+
 public class Ex04 {
 	public static void main(String[] args) {
-		// 2차원 배열 arr에 담긴 모든 값의 총합과 평균
+		// 2李⑥썝 諛곗뿴 arr�뿉 �떞湲� 紐⑤뱺 媛믪쓽 珥앺빀怨� �룊洹�
 		int[][] arr = {
 				{ 5, 5, 5, 5, 5},
 				{10,10,10,10,10},
