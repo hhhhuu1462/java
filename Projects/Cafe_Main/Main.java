@@ -4,12 +4,12 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class Main extends JFrame { 
 	private static final long serialVersionUID = -2979632338990090898L;
-	
-	Scanner scanner = new Scanner(System.in);
 
 	JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
 	static JTabbedPane menuTab = new JTabbedPane();  //JTabbedPane생성
@@ -136,36 +136,45 @@ public class Main extends JFrame {
 		ButtonGroup  group = new ButtonGroup(); 
 		group.add(card);
 		group.add(cash);
-		
+
 		//결제		
 		inventoryManagement[2].addActionListener(new ActionListener() {		
-			int sum =0;
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int rowCont = menuTable.getRowCount();				
+				int rowCont = menuTable.getRowCount();		
+				int pay[] = new int[rowCont];
 				for(int i=0;i<rowCont;i++) {
-					sum += (int)menuTable.getValueAt(i, 2);
+					pay[i] = (int)menuTable.getValueAt(i, 2);
 				}
+				int sum = IntStream.of(pay).sum();
 				tf.setText(String.valueOf(" 총 금액 : " + sum + "원"));
 				tf.setFont(new Font("고딕", Font.BOLD, 15));
+
 				if(cash.isSelected()==true) {
-					int exitOption = JOptionPane.showConfirmDialog(null, "현금결제 하시겠습니까?", "메롱", JOptionPane.YES_OPTION);
+					int exitOption = JOptionPane.showConfirmDialog(null, "현금결제 하시겠습니까?", "결제창", JOptionPane.YES_OPTION);
 					if (exitOption == JOptionPane.YES_OPTION) {
 						Payment payment = new Payment();
-						int paymoney = Integer.parseInt(payment.payMoney.getText());	
-						payment.payBtn.addActionListener(new ActionListener() {						
+						payment.payBtn.addActionListener(new ActionListener() {							
 							@Override
-							public void actionPerformed(ActionEvent e) {							
-								if ( sum <= paymoney) {
-									JOptionPane.showMessageDialog(null, "결제되었습니다");
+							public void actionPerformed(ActionEvent e) {
+								String str = "";
+								str = payment.payMoney.getText();
+								str = str.trim();
+								int paymoney = 0;
+								paymoney = Integer.parseInt(str);	
+								if(sum <= paymoney) {
+									JOptionPane.showMessageDialog(null, "결제되었습니다", "결제창", JOptionPane.PLAIN_MESSAGE);
+									payment.dispose();
+								} else {
+									JOptionPane.showMessageDialog(null, "돈이 부족해요!", "결제창", JOptionPane.INFORMATION_MESSAGE);
+									payment.dispose();
 								}
 							}
 						});
+					} else if(card.isSelected()==true) {
+						JOptionPane.showConfirmDialog(null, "카드결제 하시겠습니까?");
 					}
-					
-				} else if(card.isSelected()==true) {
-					JOptionPane.showConfirmDialog(null, "카드결제 하시겠습니까?");
-				}
+				}	
 			}
 		});
 
