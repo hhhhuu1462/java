@@ -15,9 +15,9 @@ public class Login extends JFrame {
 	private String id = null;
 	private String pw = null;
 
-	Connection conn; //µ¥ÀÌÅÍº£ÀÌ½º¿¡ Á¢±ÙÇÏ°Ô ÇØÁÖ´Â °´Ã¼
+	Connection conn; //ë°ì´í„°ë² ì´ìŠ¤ì— ì ‘ê·¼í•˜ê²Œ í•´ì£¼ëŠ” ê°ì²´
 	PreparedStatement pstmt;
-	ResultSet rs; //Á¤º¸¸¦ ´ãÀ» ¼ö ÀÖ´Â °´Ã¼
+	ResultSet rs; //ì •ë³´ë¥¼ ë‹´ì„ ìˆ˜ ìˆëŠ” ê°ì²´
 
 	/**
 	 * @param userID
@@ -27,38 +27,38 @@ public class Login extends JFrame {
 	public int login(String id, String pw) {
 		try {
 			String sql = "select * from login where id = ?";
-			//½ÇÁ¦ SQL¿¡¼­ ÀÛµ¿ÇÏ°Ô ÇÒ ¸í·É¹® ÀÔ·Â
+			//ì‹¤ì œ SQLì—ì„œ ì‘ë™í•˜ê²Œ í•  ëª…ë ¹ë¬¸ ì…ë ¥
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
-			//ÀÎÁ§¼ÇÇØÅ·µîÀ» ¹æÁöÇÏ±â À§ÇÑ ±â¹ı ?¿¡ ID°ªÀ» ¹ŞÀº ÈÄ »ç¿ë.
+			//ì¸ì ì…˜í•´í‚¹ë“±ì„ ë°©ì§€í•˜ê¸° ìœ„í•œ ê¸°ë²• ?ì— IDê°’ì„ ë°›ì€ í›„ ì‚¬ìš©.
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				if(rs.getString(1).equals(pw)) {
-					return 1; // ·Î±×ÀÎ ¼º°ø
+					return 1; // ë¡œê·¸ì¸ ì„±ê³µ
 				} else 
-					return 0; // ºñ¹Ğ¹øÈ£ ºÒÀÏÄ¡
+					return 0; // ë¹„ë°€ë²ˆí˜¸ ë¶ˆì¼ì¹˜
 			}
-			return -1; //¾ÆÀÌµğ°¡ ¾øÀ½
+			return -1; //ì•„ì´ë””ê°€ ì—†ìŒ
 		}catch(Exception e) {
-			e.printStackTrace();    // ¿¹¿ÜÃ³¸®
+			e.printStackTrace();    // ì˜ˆì™¸ì²˜ë¦¬
 		}
-		return -2; // µ¥ÀÌÅÍº£ÀÌ½º ¿À·ù
+		return -2; // ë°ì´í„°ë² ì´ìŠ¤ ì˜¤ë¥˜
 	}
 
 
 
 	public Login() {
-		//ÀÚµ¿À¸·Î µ¥ÀÌÅÍº£ÀÌ½º Ä¿³Ø¼ÇÀÌ ÀÌ·ç¾îÁú ¼ö ÀÖµµ·Ï Á¢¼ÓÇÏ°ÔÇØÁÖ´Â ¼Ò½º
+		//ìë™ìœ¼ë¡œ ë°ì´í„°ë² ì´ìŠ¤ ì»¤ë„¥ì…˜ì´ ì´ë£¨ì–´ì§ˆ ìˆ˜ ìˆë„ë¡ ì ‘ì†í•˜ê²Œí•´ì£¼ëŠ” ì†ŒìŠ¤
 		try {
-			String dbURL ="jdbc:oracle:thin:@localhost:1521:TestDB";
-			//µ¥ÀÌÅÍº£ÀÌ½º ÁÖ¼Ò
-			String dbID = "scott";    //µ¥ÀÌÅÍº£ÀÌ½º ¾ÆÀÌµğ
-			String dbPassword = "tiger";    //µ¥ÀÌÅÍº£ÀÌ½º ºñ¹Ğ¹øÈ£
-			Class.forName("oracle.jdbc.driver.OracleDriver");    // db¿¡ Á¢¼ÓÇÏ´Â ¸Å°³Ã¼¿ªÇÒ 
+			String dbURL ="jdbc:oracle:thin:@localhost:1521:xe";
+			//ë°ì´í„°ë² ì´ìŠ¤ ì£¼ì†Œ
+			String dbID = "scott";    //ë°ì´í„°ë² ì´ìŠ¤ ì•„ì´ë””
+			String dbPassword = "tiger";    //ë°ì´í„°ë² ì´ìŠ¤ ë¹„ë°€ë²ˆí˜¸
+			Class.forName("oracle.jdbc.driver.OracleDriver");    // dbì— ì ‘ì†í•˜ëŠ” ë§¤ê°œì²´ì—­í•  
 			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
 		}catch(Exception e) {
-			e.printStackTrace(); //¿À·ù¹ß»ı½Ã ¿À·ù³»¿ë Ãâ·ÂÇÏ°Ô ÇØÁÖ´Â ¼Ò½º
+			e.printStackTrace(); //ì˜¤ë¥˜ë°œìƒì‹œ ì˜¤ë¥˜ë‚´ìš© ì¶œë ¥í•˜ê²Œ í•´ì£¼ëŠ” ì†ŒìŠ¤
 		}
 
 		setTitle("Login");
@@ -98,7 +98,7 @@ public class Login extends JFrame {
 		getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 
-		JButton btnNewButton = new JButton("·Î±×ÀÎ");
+		JButton btnNewButton = new JButton("ë¡œê·¸ì¸");
 		btnNewButton.setBounds(137, 10, 111, 34);
 		btnNewButton.addActionListener(new ActionListener() {
 			@Override
@@ -114,7 +114,7 @@ public class Login extends JFrame {
 					new Main();
 					dispose();
 				} else {
-					JOptionPane.showMessageDialog(null, "id ¶Ç´Â password°¡ Æ²¸³´Ï´Ù");
+					JOptionPane.showMessageDialog(null, "id ë˜ëŠ” passwordê°€ í‹€ë¦½ë‹ˆë‹¤");
 					System.exit(0);
 				}
 			}
