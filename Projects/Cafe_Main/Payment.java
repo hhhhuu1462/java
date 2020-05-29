@@ -19,7 +19,7 @@ public class Payment extends JFrame {
 	JLabel recieveMoney;	
 
 	public Payment() {
-		super("°áÁ¦Ã¢");
+		super("ê²°ì œì°½");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 328, 105);
 		getContentPane().setLayout(null);
@@ -34,11 +34,11 @@ public class Payment extends JFrame {
 		panel.add(payMoney);
 		payMoney.setColumns(5);
 
-		payBtn = new JButton("°áÁ¦");
+		payBtn = new JButton("ê²°ì œ");
 		payBtn.setBounds(211, 14, 69, 23);
 		panel.add(payBtn);
 
-		recieveMoney = new JLabel("¹ŞÀº ±İ¾×");
+		recieveMoney = new JLabel("ë°›ì€ ê¸ˆì•¡");
 		recieveMoney.setBounds(12, 13, 60, 24);
 		panel.add(recieveMoney);
 
