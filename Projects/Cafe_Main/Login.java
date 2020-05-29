@@ -51,7 +51,7 @@ public class Login extends JFrame {
 	public Login() {
 		//자동으로 데이터베이스 커넥션이 이루어질 수 있도록 접속하게해주는 소스
 		try {
-			String dbURL ="jdbc:oracle:thin:@localhost:1521:TestDB";
+			String dbURL ="jdbc:oracle:thin:@localhost:1521:xe";
 			//데이터베이스 주소
 			String dbID = "scott";    //데이터베이스 아이디
 			String dbPassword = "tiger";    //데이터베이스 비밀번호

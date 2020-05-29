@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class Main extends JFrame { 
@@ -54,18 +52,8 @@ public class Main extends JFrame {
 		String[] HotCoffee = {"아메리카노", "카페라떼", "카페모카", "바닐라라떼", "카푸치노", "", "", "", "", "", ""};
 		for (int i = 0; i < HotCoffeeBtn.length; i++) {
 			HotCoffeeBtn[i] = new JButton(HotCoffee[i]);
-			panel1.add(HotCoffeeBtn[i]);
-			if(HotCoffee[i].equals("")) {
-				HotCoffeeBtn[i].setEnabled(false);
-			}			
-			HotCoffeeBtn[i].addActionListener(new ActionListener() {			
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-				}
-			});
+			panel1.add(HotCoffeeBtn[i]);				
 		}
-
 		menuTab.add("HotCoffee", panel1);
 
 		// ICECoffeeBtn
@@ -76,10 +64,7 @@ public class Main extends JFrame {
 		for (int i = 0; i < ICECoffeeBtn.length; i++) {
 			ICECoffeeBtn[i] = new JButton(ICECoffee[i]);
 			panel2.add(ICECoffeeBtn[i]);
-			if(ICECoffee[i].equals("")) {
-				ICECoffeeBtn[i].setEnabled(false);
-			}
-		}
+		}		
 		menuTab.add("IceCoffee", panel2);
 
 		// ShakeFlatchinoBtn
@@ -91,9 +76,6 @@ public class Main extends JFrame {
 		for (int i = 0; i < ShakeFlatchinoBtn.length; i++) {
 			ShakeFlatchinoBtn[i] = new JButton("<html> <center> " + ShakeFlatchino[i] + "</center> </html>");
 			panel3.add(ShakeFlatchinoBtn[i]);
-			if(ShakeFlatchino[i].equals("")) {
-				ShakeFlatchinoBtn[i].setEnabled(false);
-			}
 		}
 		menuTab.add("Beverage", panel3);
 
@@ -151,8 +133,8 @@ public class Main extends JFrame {
 				tf.setFont(new Font("고딕", Font.BOLD, 15));
 
 				if(cash.isSelected()==true) {
-					int exitOption = JOptionPane.showConfirmDialog(null, "현금결제 하시겠습니까?", "결제창", JOptionPane.YES_OPTION);
-					if (exitOption == JOptionPane.YES_OPTION) {
+					int exitOptionCash = JOptionPane.showConfirmDialog(null, "현금결제 하시겠습니까?", "결제창", JOptionPane.YES_OPTION);
+					if (exitOptionCash == JOptionPane.YES_OPTION) {
 						Payment payment = new Payment();
 						payment.payBtn.addActionListener(new ActionListener() {							
 							@Override
@@ -163,8 +145,16 @@ public class Main extends JFrame {
 								int paymoney = 0;
 								paymoney = Integer.parseInt(str);	
 								if(sum <= paymoney) {
+									CoffeeDAO coffeeDAO = new CoffeeDAO();
+									Info info = new Info();
+									for (int i = 0; i < menuTable.getRowCount(); i++) {
+										coffeeDAO.coffeeadd(info);
+									}									
 									JOptionPane.showMessageDialog(null, "결제되었습니다", "결제창", JOptionPane.PLAIN_MESSAGE);
 									payment.dispose();
+									DefaultTableModel model = (DefaultTableModel)menuTable.getModel();
+									model.setNumRows(0);
+									tf.setText("");
 								} else {
 									JOptionPane.showMessageDialog(null, "돈이 부족해요!", "결제창", JOptionPane.INFORMATION_MESSAGE);
 									payment.dispose();
@@ -172,7 +162,7 @@ public class Main extends JFrame {
 							}
 						});
 					} else if(card.isSelected()==true) {
-						JOptionPane.showConfirmDialog(null, "카드결제 하시겠습니까?");
+						JOptionPane.showConfirmDialog(null, "카드결제 하시겠습니까?", "결제창", JOptionPane.YES_OPTION);
 					}
 				}	
 			}
@@ -243,7 +233,8 @@ public class Main extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					JButton MBtn = (JButton)e.getSource();
 					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
-					m.addRow(new Object[]{HotCoffee[index],count, hotCoffeePrice[index]});
+					String menu = HotCoffee[index];
+					m.addRow(new Object[]{menu,count, hotCoffeePrice[index]});
 				}
 			});
 			ICECoffeeBtn[i].addActionListener(new ActionListener() {
@@ -251,7 +242,8 @@ public class Main extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					JButton MBtn = (JButton)e.getSource();
 					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
-					m.addRow(new Object[]{ICECoffee[index],count, iceCoffeePrice[index]});
+					String menu = ICECoffee[index];
+					m.addRow(new Object[]{menu,count, iceCoffeePrice[index]});
 				}
 			});
 			ShakeFlatchinoBtn[i].addActionListener(new ActionListener() {
@@ -259,7 +251,8 @@ public class Main extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					JButton MBtn = (JButton)e.getSource();
 					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
-					m.addRow(new Object[]{ShakeFlatchino[index],count, shakeFlatchinoPrice[index]});
+					String menu = ShakeFlatchino[index];
+					m.addRow(new Object[]{menu,count, shakeFlatchinoPrice[index]});
 				}
 			});
 		}
