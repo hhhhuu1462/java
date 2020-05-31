@@ -4,23 +4,29 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
 import java.util.stream.IntStream;
 
 public class Main extends JFrame { 
 	private static final long serialVersionUID = -2979632338990090898L;
 
-	JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
-	static JTabbedPane menuTab = new JTabbedPane();  //JTabbedPaneìƒì„±
-	JTextField tf = new JTextField(); // ì´ ê¸ˆì•¡
-	static JButton[] HotCoffeeBtn, ICECoffeeBtn, ShakeFlatchinoBtn; // ë©”ë‰´ ë²„íŠ¼
+	static JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
+	static JTabbedPane menuTab = new JTabbedPane();  //JTabbedPane»ı¼º
+	JTextField tf = new JTextField(); // ÃÑ ±İ¾×
+	static JButton[] HotCoffeeBtn, ICECoffeeBtn, ShakeFlatchinoBtn; // ¸Ş´º ¹öÆ°	
 
-	// ì£¼ë¬¸ í…Œì´ë¸”
-	String [] ColName = {"ë©”ë‰´","ìˆ˜ëŸ‰","ê°€ê²©"};
+	// ÁÖ¹® Å×ÀÌºí
+	String [] ColName = {"¸Ş´º","¼ö·®","°¡°İ"};
 	String [][] Data ;	
 	int count =1;
 	DefaultTableModel model = new DefaultTableModel(Data,ColName);
 	JTable menuTable = new JTable(model);
 	JScrollPane menuScroll = new JScrollPane();
+	
+	String[] HotCoffee = {"¾Æ¸Ş¸®Ä«³ë", "Ä«Æä¶ó¶¼", "Ä«Æä¸ğÄ«", "¹Ù´Ò¶ó¶ó¶¼", "Ä«ÇªÄ¡³ë", "", "", "", "", "", ""};
+	String[] ICECoffee = {"ICE¾Æ¸Ş¸®Ä«³ë", "ICEÄ«Æä¶ó¶¼", "ICEÄ«Æä¸ğÄ«", "ICE¹Ù´Ò¶ó¶ó¶¼", "ICEÄ«ÇªÄ¡³ë", "", "", "", "", "", ""};
+	String[] ShakeFlatchino = {"¿À¸®Áø½¦ÀÌÅ©", "µş±â½¦ÀÌÅ©", "ÃÊÄÚÄíÅ°½¦ÀÌÅ©", "<html>ÃÊÄÚ¹¯°í´õºí<br>½¦ÀÌÅ©</html>", "<html>Ä¡Áî°¡ÄíÅ°Çß´ë<br>½¦ÀÌÅ©</html>", 
+			"¿äÄ¿Æ®ÇÃ·§Ä¡³ë", "µş±âÇÃ·§Ä¡³ë", "<html>ºí·çº£¸®¿ä°ÅÆ®<br>ÇÃ·§Ä¡³ë</html>", "²Üº¹¼ş¾ÆÇÃ·§Ä¡³ë", "", ""};
 
 	int  hotCoffeePrice[] = {3200, 3700, 3700, 3700, 3700, 0, 0, 0, 0, 0, 0};
 	int  iceCoffeePrice[] = {3200, 3700, 3700, 3700, 3700, 0, 0, 0, 0, 0, 0};
@@ -31,13 +37,127 @@ public class Main extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 902, 563);
-
+		
 		launched();
+		createMenu();		
 
-		ImageIcon img = new ImageIcon("C:\\git!\\java\\Projects\\Cafe_Main\\ì§±êµ¬.jpg");
+		ImageIcon img = new ImageIcon("C:\\git!\\java\\Projects\\Cafe_Main\\Â¯±¸.jpg");
 		setIconImage(img.getImage());
 		setResizable(false);
 		setVisible(true);
+	}
+
+	public void createMenu() {
+		JMenuBar mb = new JMenuBar(); 
+		JMenuItem [] menuItem = new JMenuItem [1];
+		String[] itemTitle = {"Exit"};
+		JMenu fileMenu = new JMenu("File");		
+
+		FileMenuActionListener fileMenuActionListener = new FileMenuActionListener();
+		for (int i = 0; i < menuItem.length; i++) {
+			menuItem[i] = new JMenuItem(itemTitle[i]); 
+			menuItem[i].addActionListener(fileMenuActionListener); 
+			fileMenu.add(menuItem[i]);
+		}		
+		mb.add(fileMenu);
+		setJMenuBar(mb);		
+
+		JMenu editMenu = new JMenu("Edit");
+		JMenu tabMenu = new JMenu("Tab");
+		editMenu.add(tabMenu);
+		JMenu hotCoffeeMenu = new JMenu("HotCoffee");
+		JMenu iceCoffeeMenu = new JMenu("IceCoffee");
+		JMenu shakeFlatchinoMenu = new JMenu("ShakeFlatchino");
+		tabMenu.add(hotCoffeeMenu);
+		tabMenu.add(iceCoffeeMenu);
+		tabMenu.add(shakeFlatchinoMenu);
+
+		JMenuItem [] editItem = new JMenuItem[3];
+		String[] hotCoffeeEdit = {"Ãß°¡", "¼öÁ¤", "»èÁ¦"};
+		String[] iceCoffeeEdit = {"Ãß°¡", "¼öÁ¤", "»èÁ¦"};
+		String[] shakeFlatchinoEdit = {"Ãß°¡", "¼öÁ¤", "»èÁ¦"};
+		EditMenuActionListener editMenuActionListener = new EditMenuActionListener();
+		for (int i = 0; i < editItem.length; i++) {
+			editItem[i] = new JMenuItem(hotCoffeeEdit[i]); 
+			editItem[i].addActionListener(editMenuActionListener); 
+			hotCoffeeMenu.add(editItem[i]);
+		}		
+		for (int i = 0; i < editItem.length; i++) {
+			editItem[i] = new JMenuItem(iceCoffeeEdit[i]); 
+			editItem[i].addActionListener(editMenuActionListener); 
+			iceCoffeeMenu.add(editItem[i]);
+		}		
+		for (int i = 0; i < editItem.length; i++) {
+			editItem[i] = new JMenuItem(shakeFlatchinoEdit[i]); 
+			editItem[i].addActionListener(editMenuActionListener); 
+			shakeFlatchinoMenu.add(editItem[i]);
+		}		
+
+		mb.add(editMenu);
+	}
+
+	// file ¸Ş´º¹Ù
+	class FileMenuActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String cmd = e.getActionCommand();
+			switch (cmd) {
+			case "Exit" :
+				System.exit(0);
+				break;
+			}
+		}
+	}
+
+	// edit ¸Ş´º¹Ù
+	class EditMenuActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String cmd = e.getActionCommand();
+			switch (cmd) {
+			case "Ãß°¡" :
+				for (int i = 0; i < HotCoffeeBtn.length; i++) {
+					if(HotCoffeeBtn[i].equals("")) {
+
+					}
+				}
+				break;
+			case "¼öÁ¤" :
+			case "»èÁ¦" :
+				String delete = (String) JOptionPane.showInputDialog("»èÁ¦ÇÒ ¸Ş´º¸¦ Àû¾îÁÖ¼¼¿ä");
+				CoffeeDAO coffeeDAO = new CoffeeDAO();
+				Info info = new Info();
+				String menu = delete;
+				try {
+					int n = coffeeDAO.delete(menu);
+					for (int i = 0; i < HotCoffeeBtn.length; i++) {
+						if(HotCoffeeBtn[i].getText().equals(delete)) {
+							HotCoffeeBtn[i].setText("");
+							hotCoffeePrice[i]=0;
+							HotCoffee[i] = "";											
+						}
+					}
+					for (int i = 0; i < ICECoffeeBtn.length; i++) {
+						if(ICECoffeeBtn[i].getText().equals(delete)) {
+							ICECoffeeBtn[i].setText("");
+							iceCoffeePrice[i]=0;
+							ICECoffee[i] = "";											
+						}
+					}
+					for (int i = 0; i < ShakeFlatchinoBtn.length; i++) {
+						if(ShakeFlatchinoBtn[i].getText().equals(delete)) {
+							ShakeFlatchinoBtn[i].setText("");
+							shakeFlatchinoPrice[i]=0;
+							ShakeFlatchino[i] = "";											
+						}
+					}
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void launched() {
@@ -49,10 +169,9 @@ public class Main extends JFrame {
 		panel1 = new JPanel();
 		panel1.setLayout(new GridLayout(4, 4, 10, 10));		
 		HotCoffeeBtn = new JButton[11];
-		String[] HotCoffee = {"ì•„ë©”ë¦¬ì¹´ë…¸", "ì¹´í˜ë¼ë–¼", "ì¹´í˜ëª¨ì¹´", "ë°”ë‹ë¼ë¼ë–¼", "ì¹´í‘¸ì¹˜ë…¸", "", "", "", "", "", ""};
 		for (int i = 0; i < HotCoffeeBtn.length; i++) {
 			HotCoffeeBtn[i] = new JButton(HotCoffee[i]);
-			panel1.add(HotCoffeeBtn[i]);				
+			panel1.add(HotCoffeeBtn[i]);		
 		}
 		menuTab.add("HotCoffee", panel1);
 
@@ -60,7 +179,7 @@ public class Main extends JFrame {
 		panel2 = new JPanel();
 		panel2.setLayout(new GridLayout(4, 4, 10, 10));	
 		ICECoffeeBtn = new JButton[11];
-		String[] ICECoffee = {"ICEì•„ë©”ë¦¬ì¹´ë…¸", "ICEì¹´í˜ë¼ë–¼", "ICEì¹´í˜ëª¨ì¹´", "ICEë°”ë‹ë¼ë¼ë–¼", "ICEì¹´í‘¸ì¹˜ë…¸", "", "", "", "", "", ""};
+		
 		for (int i = 0; i < ICECoffeeBtn.length; i++) {
 			ICECoffeeBtn[i] = new JButton(ICECoffee[i]);
 			panel2.add(ICECoffeeBtn[i]);
@@ -71,27 +190,26 @@ public class Main extends JFrame {
 		panel3 = new JPanel();
 		panel3.setLayout(new GridLayout(4, 4, 10, 10));	
 		ShakeFlatchinoBtn = new JButton[11];
-		String[] ShakeFlatchino = {"ì˜¤ë¦¬ì§„ì‰ì´í¬", "ë”¸ê¸°ì‰ì´í¬", "ì´ˆì½”ì¿ í‚¤ì‰ì´í¬", "<html>ì´ˆì½”ë¬»ê³ ë”ë¸”<br>ì‰ì´í¬</html>", "<html>ì¹˜ì¦ˆê°€ì¿ í‚¤í–ˆëŒ€<br>ì‰ì´í¬</html>", 
-				"ìš”ì»¤íŠ¸í”Œë«ì¹˜ë…¸", "ë”¸ê¸°í”Œë«ì¹˜ë…¸", "<html>ë¸”ë£¨ë² ë¦¬ìš”ê±°íŠ¸<br>í”Œë«ì¹˜ë…¸</html>", "ê¿€ë³µìˆ­ì•„í”Œë«ì¹˜ë…¸", "", ""};
+		
 		for (int i = 0; i < ShakeFlatchinoBtn.length; i++) {
 			ShakeFlatchinoBtn[i] = new JButton("<html> <center> " + ShakeFlatchino[i] + "</center> </html>");
 			panel3.add(ShakeFlatchinoBtn[i]);
 		}
 		menuTab.add("Beverage", panel3);
 
-		// ìš´ì˜ë²„íŠ¼
+		// ¿î¿µ¹öÆ°
 		panel4 = new JPanel();
 		panel4.setBounds(26, 410, 844, 85);
 		getContentPane().add(panel4);
 		panel4.setLayout(new GridLayout(1, 6, 10, 10));		
-		String[] operation = {"ë§¤ì¶œ", "ì˜ìˆ˜ì¦", "ê²°ì œ", "í• ì¸", "ì„ íƒì·¨ì†Œ", "ì „ì²´ì·¨ì†Œ"};
+		String[] operation = {"¸ÅÃâ", "¿µ¼öÁõ", "°áÁ¦", "ÇÒÀÎ", "¼±ÅÃÃë¼Ò", "ÀüÃ¼Ãë¼Ò"};
 		JButton[] inventoryManagement = new JButton[6];
 		for (int i = 0; i < inventoryManagement.length; i++) {
 			inventoryManagement[i] = new JButton(operation[i]);
 			panel4.add(inventoryManagement[i]);
 		}
 
-		//ë§¤ì¶œëª©ë¡
+		//¸ÅÃâ¸ñ·Ï
 		inventoryManagement[0].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -99,18 +217,18 @@ public class Main extends JFrame {
 			}
 		});
 
-		// ê²°ì œ ë°©ì‹
+		// °áÁ¦ ¹æ½Ä
 		panel7 = new JPanel();
 		panel7.setBounds(26, 294, 353, 37);
 		getContentPane().add(panel7);
 		panel7.setLayout(null);
 
-		JLabel payWay = new JLabel("ê²°ì œ ë°©ì‹");
-		payWay.setFont(new Font("ê³ ë”•", Font.BOLD, 15));
+		JLabel payWay = new JLabel("°áÁ¦ ¹æ½Ä");
+		payWay.setFont(new Font("°íµñ", Font.BOLD, 15));
 		payWay.setBounds(8, 7, 109, 18);
-		JRadioButton cash = new JRadioButton("í˜„ê¸ˆ");
+		JRadioButton cash = new JRadioButton("Çö±İ");
 		cash.setBounds(125, 5, 76, 23);
-		JRadioButton card = new JRadioButton("ì¹´ë“œ");
+		JRadioButton card = new JRadioButton("Ä«µå");
 		card.setBounds(212, 5, 76, 23);
 		panel7.add(payWay);
 		panel7.add(cash);
@@ -119,7 +237,7 @@ public class Main extends JFrame {
 		group.add(card);
 		group.add(cash);
 
-		//ê²°ì œ		
+		//°áÁ¦		
 		inventoryManagement[2].addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -129,11 +247,11 @@ public class Main extends JFrame {
 					pay[i] = (int)menuTable.getValueAt(i, 2);
 				}
 				int sum = IntStream.of(pay).sum();
-				tf.setText(String.valueOf(" ì´ ê¸ˆì•¡ : " + sum + "ì›"));
-				tf.setFont(new Font("ê³ ë”•", Font.BOLD, 15));
+				tf.setText(String.valueOf(" ÃÑ ±İ¾× : " + sum + "¿ø"));
+				tf.setFont(new Font("°íµñ", Font.BOLD, 15));
 
 				if(cash.isSelected()==true) {
-					int exitOptionCash = JOptionPane.showConfirmDialog(null, "í˜„ê¸ˆê²°ì œ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?", "ê²°ì œì°½", JOptionPane.YES_OPTION);
+					int exitOptionCash = JOptionPane.showConfirmDialog(null, "Çö±İ°áÁ¦ ÇÏ½Ã°Ú½À´Ï±î?", "°áÁ¦Ã¢", JOptionPane.YES_OPTION);
 					if (exitOptionCash == JOptionPane.YES_OPTION) {
 						Payment payment = new Payment();
 						payment.payBtn.addActionListener(new ActionListener() {							
@@ -148,27 +266,35 @@ public class Main extends JFrame {
 									CoffeeDAO coffeeDAO = new CoffeeDAO();
 									Info info = new Info();
 									for (int i = 0; i < menuTable.getRowCount(); i++) {
-										coffeeDAO.coffeeadd(info);
+										SimpleDateFormat format2 = new SimpleDateFormat ("yyyy³â MM¿ùddÀÏ HH½ÃmmºĞssÃÊ");
+										String format_time2 = format2.format (System.currentTimeMillis());
+
+										String menucode = info.menuCode;
+										String menu = (String) menuTable.getValueAt(i, 0);		
+										int price = (int) menuTable.getValueAt(i, 2);
+										String ordertime = format_time2;
+
+										int n = coffeeDAO.coffeeadd(menucode, menu, price, ordertime);
 									}									
-									JOptionPane.showMessageDialog(null, "ê²°ì œë˜ì—ˆìŠµë‹ˆë‹¤", "ê²°ì œì°½", JOptionPane.PLAIN_MESSAGE);
+									JOptionPane.showMessageDialog(null, "°áÁ¦µÇ¾ú½À´Ï´Ù", "°áÁ¦Ã¢", JOptionPane.PLAIN_MESSAGE);
 									payment.dispose();
 									DefaultTableModel model = (DefaultTableModel)menuTable.getModel();
 									model.setNumRows(0);
 									tf.setText("");
 								} else {
-									JOptionPane.showMessageDialog(null, "ëˆì´ ë¶€ì¡±í•´ìš”!", "ê²°ì œì°½", JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showMessageDialog(null, "µ·ÀÌ ºÎÁ·ÇØ¿ä!", "°áÁ¦Ã¢", JOptionPane.INFORMATION_MESSAGE);
 									payment.dispose();
 								}
 							}
 						});
 					} else if(card.isSelected()==true) {
-						JOptionPane.showConfirmDialog(null, "ì¹´ë“œê²°ì œ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?", "ê²°ì œì°½", JOptionPane.YES_OPTION);
+						JOptionPane.showConfirmDialog(null, "Ä«µå°áÁ¦ ÇÏ½Ã°Ú½À´Ï±î?", "°áÁ¦Ã¢", JOptionPane.YES_OPTION);
 					}
 				}	
 			}
 		});
 
-		// í• ì¸
+		// ÇÒÀÎ
 		inventoryManagement[3].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -200,7 +326,7 @@ public class Main extends JFrame {
 			}
 		});
 
-		// ì„ íƒì·¨ì†Œ
+		// ¼±ÅÃÃë¼Ò
 		inventoryManagement[4].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -210,7 +336,7 @@ public class Main extends JFrame {
 			}
 		});
 
-		// ì „ì²´ì·¨ì†Œ
+		// ÀüÃ¼Ãë¼Ò
 		inventoryManagement[5].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -221,7 +347,7 @@ public class Main extends JFrame {
 			}
 		});
 
-		// ì£¼ë¬¸ë¦¬ìŠ¤íŠ¸
+		// ÁÖ¹®¸®½ºÆ®
 		menuTable.setRowHeight(38);
 		menuScroll.setBounds(26, 24, 353, 264);
 		menuScroll.setViewportView(menuTable);
@@ -235,6 +361,9 @@ public class Main extends JFrame {
 					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
 					String menu = HotCoffee[index];
 					m.addRow(new Object[]{menu,count, hotCoffeePrice[index]});
+					if(menu.equals("")) {
+						m.removeRow(m.getRowCount()-1);				
+					}
 				}
 			});
 			ICECoffeeBtn[i].addActionListener(new ActionListener() {
@@ -244,6 +373,9 @@ public class Main extends JFrame {
 					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
 					String menu = ICECoffee[index];
 					m.addRow(new Object[]{menu,count, iceCoffeePrice[index]});
+					if(menu.equals("")) {
+						m.removeRow(m.getRowCount()-1);				
+					}
 				}
 			});
 			ShakeFlatchinoBtn[i].addActionListener(new ActionListener() {
@@ -253,11 +385,14 @@ public class Main extends JFrame {
 					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
 					String menu = ShakeFlatchino[index];
 					m.addRow(new Object[]{menu,count, shakeFlatchinoPrice[index]});
+					if(menu.equals("")) {
+						m.removeRow(m.getRowCount()-1);				
+					}
 				}
 			});
 		}
 
-		// ì´ ê¸ˆì•¡
+		// ÃÑ ±İ¾×
 		panel6 = new JPanel();
 		panel6.setBounds(26, 337, 353, 58);
 		getContentPane().add(panel6);

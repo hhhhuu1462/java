@@ -5,17 +5,14 @@ import javax.swing.JFrame;
 
 public class Discount extends JFrame {
 
+	private static final long serialVersionUID = 8951179806606896315L;
+	
 	JButton btn10, btn20, btnFree;
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		new Discount();
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Discount() {
 		setTitle("«“¿Œ");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -2,8 +2,6 @@ package Cafe_Main;
 
 import javax.swing.JFrame;
 import java.awt.Panel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -19,7 +17,7 @@ public class Payment extends JFrame {
 	JLabel recieveMoney;	
 
 	public Payment() {
-		super("Í≤∞Ï†úÏ∞Ω");
+		super("∞·¡¶√¢");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 328, 105);
 		getContentPane().setLayout(null);
@@ -34,11 +32,11 @@ public class Payment extends JFrame {
 		panel.add(payMoney);
 		payMoney.setColumns(5);
 
-		payBtn = new JButton("Í≤∞Ï†ú");
+		payBtn = new JButton("∞·¡¶");
 		payBtn.setBounds(211, 14, 69, 23);
 		panel.add(payBtn);
 
-		recieveMoney = new JLabel("Î∞õÏùÄ Í∏àÏï°");
+		recieveMoney = new JLabel("πﬁ¿∫ ±›æ◊");
 		recieveMoney.setBounds(12, 13, 60, 24);
 		panel.add(recieveMoney);
 
