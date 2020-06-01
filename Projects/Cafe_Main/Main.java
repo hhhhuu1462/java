@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.stream.IntStream;
 
 public class Main extends JFrame { 
-	private static final long serialVersionUID = -2979632338990090898L;
+	private static final long serialVersionUID = 7340961398071354159L;
 
 	static JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
 	static JTabbedPane menuTab = new JTabbedPane();  //JTabbedPane생성
@@ -22,7 +22,7 @@ public class Main extends JFrame {
 	DefaultTableModel model = new DefaultTableModel(Data,ColName);
 	JTable menuTable = new JTable(model);
 	JScrollPane menuScroll = new JScrollPane();
-	
+
 	String[] HotCoffee = {"아메리카노", "카페라떼", "카페모카", "바닐라라떼", "카푸치노", "", "", "", "", "", ""};
 	String[] ICECoffee = {"ICE 아메리카노", "ICE 카페라떼", "ICE 카페모카", "ICE 바닐라라떼", "ICE 카푸치노", "", "", "", "", "", ""};
 	String[] ShakeFlatchino = {"오리진 쉐이크", "딸기 쉐이크", "초코쿠키 쉐이크", "초코묻고더블 쉐이크", "치즈가쿠키했대 쉐이크", 
@@ -37,7 +37,7 @@ public class Main extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 902, 563);
-		
+
 		launched();
 		createMenu();		
 
@@ -72,10 +72,10 @@ public class Main extends JFrame {
 		tabMenu.add(iceCoffeeMenu);
 		tabMenu.add(shakeFlatchinoMenu);
 
-		JMenuItem [] editItem = new JMenuItem[3];
-		String[] hotCoffeeEdit = {"추가", "수정", "삭제"};
-		String[] iceCoffeeEdit = {"추가", "수정", "삭제"};
-		String[] shakeFlatchinoEdit = {"추가", "수정", "삭제"};
+		JMenuItem [] editItem = new JMenuItem[2];
+		String[] hotCoffeeEdit = {"추가", "삭제"};
+		String[] iceCoffeeEdit = {"추가", "삭제"};
+		String[] shakeFlatchinoEdit = {"추가", "삭제"};
 		EditMenuActionListener editMenuActionListener = new EditMenuActionListener();
 		for (int i = 0; i < editItem.length; i++) {
 			editItem[i] = new JMenuItem(hotCoffeeEdit[i]); 
@@ -122,7 +122,6 @@ public class Main extends JFrame {
 					}
 				}
 				break;
-			case "수정" :
 			case "삭제" :
 				String delete = (String) JOptionPane.showInputDialog("삭제할 메뉴를 적어주세요");
 				CoffeeDAO coffeeDAO = new CoffeeDAO();
@@ -151,7 +150,7 @@ public class Main extends JFrame {
 							ShakeFlatchino[i] = "";											
 						}
 					}
-					
+
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -179,7 +178,7 @@ public class Main extends JFrame {
 		panel2 = new JPanel();
 		panel2.setLayout(new GridLayout(4, 4, 10, 10));	
 		ICECoffeeBtn = new JButton[11];
-		
+
 		for (int i = 0; i < ICECoffeeBtn.length; i++) {
 			ICECoffeeBtn[i] = new JButton(ICECoffee[i]);
 			panel2.add(ICECoffeeBtn[i]);
@@ -190,7 +189,7 @@ public class Main extends JFrame {
 		panel3 = new JPanel();
 		panel3.setLayout(new GridLayout(4, 4, 10, 10));	
 		ShakeFlatchinoBtn = new JButton[11];
-		
+
 		for (int i = 0; i < ShakeFlatchinoBtn.length; i++) {
 			ShakeFlatchinoBtn[i] = new JButton("<html> <center> " + ShakeFlatchino[i] + "</center> </html>");
 			panel3.add(ShakeFlatchinoBtn[i]);
@@ -202,8 +201,8 @@ public class Main extends JFrame {
 		panel4.setBounds(26, 410, 844, 85);
 		getContentPane().add(panel4);
 		panel4.setLayout(new GridLayout(1, 6, 10, 10));		
-		String[] operation = {"매출", "영수증", "결제", "할인", "선택취소", "전체취소"};
-		JButton[] inventoryManagement = new JButton[6];
+		String[] operation = {"매출", "결제", "할인", "선택취소", "전체취소"};
+		JButton[] inventoryManagement = new JButton[5];
 		for (int i = 0; i < inventoryManagement.length; i++) {
 			inventoryManagement[i] = new JButton(operation[i]);
 			panel4.add(inventoryManagement[i]);
@@ -238,7 +237,7 @@ public class Main extends JFrame {
 		group.add(cash);
 
 		//결제		
-		inventoryManagement[2].addActionListener(new ActionListener() {		
+		inventoryManagement[1].addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int rowCont = menuTable.getRowCount();		
@@ -268,7 +267,7 @@ public class Main extends JFrame {
 									for (int i = 0; i < menuTable.getRowCount(); i++) {
 										SimpleDateFormat format2 = new SimpleDateFormat ("yyyy년 MM월dd일 HH시mm분ss초");
 										String format_time2 = format2.format (System.currentTimeMillis());
-										
+
 										String menucode = (String) menuTable.getValueAt(i, 0);	
 										String menu = (String) menuTable.getValueAt(i, 0);		
 										int price = (int) menuTable.getValueAt(i, 2);
@@ -287,15 +286,15 @@ public class Main extends JFrame {
 								}
 							}
 						});
-					} else if(card.isSelected()==true) {
-						JOptionPane.showConfirmDialog(null, "카드결제 하시겠습니까?", "결제창", JOptionPane.YES_OPTION);
-					}
+					} 
+				}else if(card.isSelected()==true) {
+					JOptionPane.showConfirmDialog(null, "카드결제 하시겠습니까?", "결제창", JOptionPane.YES_OPTION);
 				}	
 			}
 		});
 
 		// 할인
-		inventoryManagement[3].addActionListener(new ActionListener() {
+		inventoryManagement[2].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JButton MBtn = (JButton)e.getSource();
@@ -327,7 +326,7 @@ public class Main extends JFrame {
 		});
 
 		// 선택취소
-		inventoryManagement[4].addActionListener(new ActionListener() {
+		inventoryManagement[3].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JButton MBtn = (JButton)e.getSource();
@@ -337,7 +336,7 @@ public class Main extends JFrame {
 		});
 
 		// 전체취소
-		inventoryManagement[5].addActionListener(new ActionListener() {
+		inventoryManagement[4].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JButton MBtn = (JButton)e.getSource();
