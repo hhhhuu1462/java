@@ -2,8 +2,6 @@ package Cafe_Main;
 
 import javax.swing.JFrame;
 import java.awt.Panel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;

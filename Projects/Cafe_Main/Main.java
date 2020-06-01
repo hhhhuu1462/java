@@ -4,15 +4,16 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
 import java.util.stream.IntStream;
 
 public class Main extends JFrame { 
 	private static final long serialVersionUID = -2979632338990090898L;
 
-	JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
+	static JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
 	static JTabbedPane menuTab = new JTabbedPane();  //JTabbedPane생성
 	JTextField tf = new JTextField(); // 총 금액
-	static JButton[] HotCoffeeBtn, ICECoffeeBtn, ShakeFlatchinoBtn; // 메뉴 버튼
+	static JButton[] HotCoffeeBtn, ICECoffeeBtn, ShakeFlatchinoBtn; // 메뉴 버튼	
 
 	// 주문 테이블
 	String [] ColName = {"메뉴","수량","가격"};
@@ -21,6 +22,11 @@ public class Main extends JFrame {
 	DefaultTableModel model = new DefaultTableModel(Data,ColName);
 	JTable menuTable = new JTable(model);
 	JScrollPane menuScroll = new JScrollPane();
+	
+	String[] HotCoffee = {"아메리카노", "카페라떼", "카페모카", "바닐라라떼", "카푸치노", "", "", "", "", "", ""};
+	String[] ICECoffee = {"ICE 아메리카노", "ICE 카페라떼", "ICE 카페모카", "ICE 바닐라라떼", "ICE 카푸치노", "", "", "", "", "", ""};
+	String[] ShakeFlatchino = {"오리진 쉐이크", "딸기 쉐이크", "초코쿠키 쉐이크", "초코묻고더블 쉐이크", "치즈가쿠키했대 쉐이크", 
+			"요거트 플랫치노", "딸기 플랫치노", "블루베리요거트 플랫치노", "꿀복숭아 플랫치노", "", ""};
 
 	int  hotCoffeePrice[] = {3200, 3700, 3700, 3700, 3700, 0, 0, 0, 0, 0, 0};
 	int  iceCoffeePrice[] = {3200, 3700, 3700, 3700, 3700, 0, 0, 0, 0, 0, 0};
@@ -31,13 +37,127 @@ public class Main extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 902, 563);
-
+		
 		launched();
+		createMenu();		
 
 		ImageIcon img = new ImageIcon("C:\\git!\\java\\Projects\\Cafe_Main\\짱구.jpg");
 		setIconImage(img.getImage());
 		setResizable(false);
 		setVisible(true);
+	}
+
+	public void createMenu() {
+		JMenuBar mb = new JMenuBar(); 
+		JMenuItem [] menuItem = new JMenuItem [1];
+		String[] itemTitle = {"Exit"};
+		JMenu fileMenu = new JMenu("File");		
+
+		FileMenuActionListener fileMenuActionListener = new FileMenuActionListener();
+		for (int i = 0; i < menuItem.length; i++) {
+			menuItem[i] = new JMenuItem(itemTitle[i]); 
+			menuItem[i].addActionListener(fileMenuActionListener); 
+			fileMenu.add(menuItem[i]);
+		}		
+		mb.add(fileMenu);
+		setJMenuBar(mb);		
+
+		JMenu editMenu = new JMenu("Edit");
+		JMenu tabMenu = new JMenu("Tab");
+		editMenu.add(tabMenu);
+		JMenu hotCoffeeMenu = new JMenu("HotCoffee");
+		JMenu iceCoffeeMenu = new JMenu("IceCoffee");
+		JMenu shakeFlatchinoMenu = new JMenu("ShakeFlatchino");
+		tabMenu.add(hotCoffeeMenu);
+		tabMenu.add(iceCoffeeMenu);
+		tabMenu.add(shakeFlatchinoMenu);
+
+		JMenuItem [] editItem = new JMenuItem[3];
+		String[] hotCoffeeEdit = {"추가", "수정", "삭제"};
+		String[] iceCoffeeEdit = {"추가", "수정", "삭제"};
+		String[] shakeFlatchinoEdit = {"추가", "수정", "삭제"};
+		EditMenuActionListener editMenuActionListener = new EditMenuActionListener();
+		for (int i = 0; i < editItem.length; i++) {
+			editItem[i] = new JMenuItem(hotCoffeeEdit[i]); 
+			editItem[i].addActionListener(editMenuActionListener); 
+			hotCoffeeMenu.add(editItem[i]);
+		}		
+		for (int i = 0; i < editItem.length; i++) {
+			editItem[i] = new JMenuItem(iceCoffeeEdit[i]); 
+			editItem[i].addActionListener(editMenuActionListener); 
+			iceCoffeeMenu.add(editItem[i]);
+		}		
+		for (int i = 0; i < editItem.length; i++) {
+			editItem[i] = new JMenuItem(shakeFlatchinoEdit[i]); 
+			editItem[i].addActionListener(editMenuActionListener); 
+			shakeFlatchinoMenu.add(editItem[i]);
+		}		
+
+		mb.add(editMenu);
+	}
+
+	// file 메뉴바
+	class FileMenuActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String cmd = e.getActionCommand();
+			switch (cmd) {
+			case "Exit" :
+				System.exit(0);
+				break;
+			}
+		}
+	}
+
+	// edit 메뉴바
+	class EditMenuActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String cmd = e.getActionCommand();
+			switch (cmd) {
+			case "추가" :
+				for (int i = 0; i < HotCoffeeBtn.length; i++) {
+					if(HotCoffeeBtn[i].equals("")) {
+
+					}
+				}
+				break;
+			case "수정" :
+			case "삭제" :
+				String delete = (String) JOptionPane.showInputDialog("삭제할 메뉴를 적어주세요");
+				CoffeeDAO coffeeDAO = new CoffeeDAO();
+				Info info = new Info();
+				String menu = delete;
+				try {
+					int n = coffeeDAO.delete(menu);
+					for (int i = 0; i < HotCoffeeBtn.length; i++) {
+						if(HotCoffeeBtn[i].getText().equals(delete)) {
+							HotCoffeeBtn[i].setText("");
+							hotCoffeePrice[i]=0;
+							HotCoffee[i] = "";											
+						}
+					}
+					for (int i = 0; i < ICECoffeeBtn.length; i++) {
+						if(ICECoffeeBtn[i].getText().equals(delete)) {
+							ICECoffeeBtn[i].setText("");
+							iceCoffeePrice[i]=0;
+							ICECoffee[i] = "";											
+						}
+					}
+					for (int i = 0; i < ShakeFlatchinoBtn.length; i++) {
+						if(ShakeFlatchinoBtn[i].getText().equals(delete)) {
+							ShakeFlatchinoBtn[i].setText("");
+							shakeFlatchinoPrice[i]=0;
+							ShakeFlatchino[i] = "";											
+						}
+					}
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void launched() {
@@ -49,10 +169,9 @@ public class Main extends JFrame {
 		panel1 = new JPanel();
 		panel1.setLayout(new GridLayout(4, 4, 10, 10));		
 		HotCoffeeBtn = new JButton[11];
-		String[] HotCoffee = {"아메리카노", "카페라떼", "카페모카", "바닐라라떼", "카푸치노", "", "", "", "", "", ""};
 		for (int i = 0; i < HotCoffeeBtn.length; i++) {
 			HotCoffeeBtn[i] = new JButton(HotCoffee[i]);
-			panel1.add(HotCoffeeBtn[i]);				
+			panel1.add(HotCoffeeBtn[i]);		
 		}
 		menuTab.add("HotCoffee", panel1);
 
@@ -60,7 +179,7 @@ public class Main extends JFrame {
 		panel2 = new JPanel();
 		panel2.setLayout(new GridLayout(4, 4, 10, 10));	
 		ICECoffeeBtn = new JButton[11];
-		String[] ICECoffee = {"ICE아메리카노", "ICE카페라떼", "ICE카페모카", "ICE바닐라라떼", "ICE카푸치노", "", "", "", "", "", ""};
+		
 		for (int i = 0; i < ICECoffeeBtn.length; i++) {
 			ICECoffeeBtn[i] = new JButton(ICECoffee[i]);
 			panel2.add(ICECoffeeBtn[i]);
@@ -71,8 +190,7 @@ public class Main extends JFrame {
 		panel3 = new JPanel();
 		panel3.setLayout(new GridLayout(4, 4, 10, 10));	
 		ShakeFlatchinoBtn = new JButton[11];
-		String[] ShakeFlatchino = {"오리진쉐이크", "딸기쉐이크", "초코쿠키쉐이크", "<html>초코묻고더블<br>쉐이크</html>", "<html>치즈가쿠키했대<br>쉐이크</html>", 
-				"요커트플랫치노", "딸기플랫치노", "<html>블루베리요거트<br>플랫치노</html>", "꿀복숭아플랫치노", "", ""};
+		
 		for (int i = 0; i < ShakeFlatchinoBtn.length; i++) {
 			ShakeFlatchinoBtn[i] = new JButton("<html> <center> " + ShakeFlatchino[i] + "</center> </html>");
 			panel3.add(ShakeFlatchinoBtn[i]);
@@ -148,7 +266,15 @@ public class Main extends JFrame {
 									CoffeeDAO coffeeDAO = new CoffeeDAO();
 									Info info = new Info();
 									for (int i = 0; i < menuTable.getRowCount(); i++) {
-										coffeeDAO.coffeeadd(info);
+										SimpleDateFormat format2 = new SimpleDateFormat ("yyyy년 MM월dd일 HH시mm분ss초");
+										String format_time2 = format2.format (System.currentTimeMillis());
+										
+										String menucode = (String) menuTable.getValueAt(i, 0);	
+										String menu = (String) menuTable.getValueAt(i, 0);		
+										int price = (int) menuTable.getValueAt(i, 2);
+										String ordertime = format_time2;
+
+										int n = coffeeDAO.coffeeadd(menucode, menu, price, ordertime);
 									}									
 									JOptionPane.showMessageDialog(null, "결제되었습니다", "결제창", JOptionPane.PLAIN_MESSAGE);
 									payment.dispose();
@@ -223,6 +349,7 @@ public class Main extends JFrame {
 
 		// 주문리스트
 		menuTable.setRowHeight(38);
+		menuTable.getColumn(ColName[0]).setPreferredWidth(140);
 		menuScroll.setBounds(26, 24, 353, 264);
 		menuScroll.setViewportView(menuTable);
 		getContentPane().add(menuScroll);
@@ -235,6 +362,9 @@ public class Main extends JFrame {
 					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
 					String menu = HotCoffee[index];
 					m.addRow(new Object[]{menu,count, hotCoffeePrice[index]});
+					if(menu.equals("")) {
+						m.removeRow(m.getRowCount()-1);				
+					}
 				}
 			});
 			ICECoffeeBtn[i].addActionListener(new ActionListener() {
@@ -244,6 +374,9 @@ public class Main extends JFrame {
 					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
 					String menu = ICECoffee[index];
 					m.addRow(new Object[]{menu,count, iceCoffeePrice[index]});
+					if(menu.equals("")) {
+						m.removeRow(m.getRowCount()-1);				
+					}
 				}
 			});
 			ShakeFlatchinoBtn[i].addActionListener(new ActionListener() {
@@ -253,6 +386,9 @@ public class Main extends JFrame {
 					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
 					String menu = ShakeFlatchino[index];
 					m.addRow(new Object[]{menu,count, shakeFlatchinoPrice[index]});
+					if(menu.equals("")) {
+						m.removeRow(m.getRowCount()-1);				
+					}
 				}
 			});
 		}

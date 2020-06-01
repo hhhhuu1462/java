@@ -1,6 +1,5 @@
 package Cafe_Main;
 
-import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,21 +8,15 @@ import java.sql.*;
 
 public class Login extends JFrame {
 
+	private static final long serialVersionUID = -4628569482773516880L;
+	
 	private JTextField textField;
 	private JPasswordField passwordField;
-
-	private String id = null;
-	private String pw = null;
 
 	Connection conn; //데이터베이스에 접근하게 해주는 객체
 	PreparedStatement pstmt;
 	ResultSet rs; //정보를 담을 수 있는 객체
 
-	/**
-	 * @param userID
-	 * @param userPassword
-	 * @return
-	 */
 	public int login(String id, String pw) {
 		try {
 			String sql = "select * from login where id = ?";
@@ -45,8 +38,6 @@ public class Login extends JFrame {
 		}
 		return -2; // 데이터베이스 오류
 	}
-
-
 
 	public Login() {
 		//자동으로 데이터베이스 커넥션이 이루어질 수 있도록 접속하게해주는 소스
@@ -126,6 +117,6 @@ public class Login extends JFrame {
 	}
 
 	public static void main(String[] args) {		
-		Login frame = new Login();
+		new Login();
 	}
 }
