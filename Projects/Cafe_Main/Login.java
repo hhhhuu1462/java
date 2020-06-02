@@ -5,10 +5,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.Vector;
 
 public class Login extends JFrame {
 
 	private static final long serialVersionUID = -4628569482773516880L;
+
+	Vector<Info> rowData = null;
+	CoffeeDAO coffeeDAO = null;
 	
 	private JTextField textField;
 	private JPasswordField passwordField;
@@ -16,28 +20,8 @@ public class Login extends JFrame {
 	Connection conn; //데이터베이스에 접근하게 해주는 객체
 	PreparedStatement pstmt;
 	ResultSet rs; //정보를 담을 수 있는 객체
-
-	public int login(String id, String pw) {
-		try {
-			String sql = "select * from login where id = ?";
-			//실제 SQL에서 작동하게 할 명령문 입력
-
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, id);
-			//인젝션해킹등을 방지하기 위한 기법 ?에 ID값을 받은 후 사용.
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				if(rs.getString(1).equals(pw)) {
-					return 1; // 로그인 성공
-				} else 
-					return 0; // 비밀번호 불일치
-			}
-			return -1; //아이디가 없음
-		}catch(Exception e) {
-			e.printStackTrace();    // 예외처리
-		}
-		return -2; // 데이터베이스 오류
-	}
+	
+	
 
 	public Login() {
 		//자동으로 데이터베이스 커넥션이 이루어질 수 있도록 접속하게해주는 소스
@@ -97,16 +81,24 @@ public class Login extends JFrame {
 				String id = textField.getText();
 				String pw = "";
 				char[] secret_pw  = passwordField.getPassword();
+				
+				CoffeeDAO coffeeDAO = new CoffeeDAO();
+				
 				for (char cha : secret_pw ) {
 					Character.toString(cha);
 					pw += (pw.equals("")) ? ""+cha+"" : ""+cha+"";
 				}
-				if (login(id, pw)==1) {
-					new Main();
-					dispose();
-				} else {
-					JOptionPane.showMessageDialog(null, "id 또는 password가 틀립니다");
-					System.exit(0);
+				try {
+					if(coffeeDAO.login(id, pw) == 1) {
+						new Main();
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "id 또는 password가 틀립니다");
+						System.exit(0);
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});

@@ -15,10 +15,9 @@ public class CoffeeDAO {
 	private String url = "jdbc:oracle:thin:@localhost:1521:xe" ;
 	private String username = "scott" ;
 	private String password = "tiger" ;
-	private Connection conn = null ;
-	
-	
-	public CoffeeDAO() {
+	private Connection conn = null ;	
+
+	public CoffeeDAO() {		
 		try {
 			Class.forName(driver) ;			
 		} catch (ClassNotFoundException e) {
@@ -26,7 +25,7 @@ public class CoffeeDAO {
 			e.printStackTrace();		
 		}
 	}
-	
+
 	private Connection getConnection() {
 		try {
 			conn = DriverManager.getConnection(url, username, password) ;
@@ -36,7 +35,7 @@ public class CoffeeDAO {
 		}
 		return conn ;
 	}
-	
+
 	private void closeConnection() {
 		try {
 			if(conn != null) {conn.close(); }
@@ -44,17 +43,53 @@ public class CoffeeDAO {
 			e2.printStackTrace(); 
 		}		
 	}
-	
+
+	public int login(String id, String passwd) throws Exception{
+
+		Connection conn= null;
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		String sql="";
+		String password="";
+		int result = -1;
+
+		try{
+			conn =getConnection();
+			sql ="select password from login where id = ?";
+			pstmt =conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+
+			if(rs.next()){
+				password =rs.getString("password");
+				if(password.equals(passwd)) {
+					result=1; //인증성공
+				} else {
+					result=0; //비밀번호 틀림
+				}
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}try {
+			if(rs != null) {rs.close(); }
+			if(pstmt != null) {pstmt.close(); }
+			closeConnection() ;
+		} catch (Exception e2) {
+			e2.printStackTrace(); 
+		}
+		return result;
+	}
+
 	public int coffeeadd(String menucode, String menu, int price, String ordertime){//콘솔창에서 데이터를 입력받아 객체 생성
 		int result =-1;
 		PreparedStatement pstmt =null;
 		ResultSet rs = null;		
-				
+
 		try {
 			conn = getConnection();
 			String sql = "insert into coffee (menucode, menu, price, ordertime) values ((select menucode from coffeemenu where menu=?), ?, ?, ?)";
 			pstmt= conn.prepareStatement(sql);
-			
+
 			pstmt.setString(1, menu);
 			pstmt.setString(2, menu);
 			pstmt.setInt(3, price);
@@ -80,9 +115,111 @@ public class CoffeeDAO {
 				e2.printStackTrace(); 
 			}
 		}
-		
+
 		return result;
 	}//coffeeadd
+
+	public Vector<Info> GetHotCoffee() { // hot coffee
+		//모든 상품 목록들을 리턴한다.
+		PreparedStatement pstmt = null ;
+		ResultSet rs = null ;
+		String sql = "select menu, price from coffeemenu where menucode like 'H%'";
+		Vector<Info> lists = new Vector<Info>();
+		try {
+			conn = getConnection() ;
+			pstmt = conn.prepareStatement(sql) ; 
+
+			rs = pstmt.executeQuery() ;
+
+			while(rs.next()){
+				Info hot = new Info() ;
+				hot.setMenu(rs.getString("menu"));	
+				hot.setPrice(rs.getInt("price"));
+				lists.add( hot ) ;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}finally{
+			try {
+				if(rs != null) {rs.close(); }
+				if(pstmt != null) {pstmt.close(); }
+				closeConnection() ;
+			} catch (Exception e2) {
+				e2.printStackTrace(); 
+			}
+		}
+		return lists ;
+	}//GetHotCoffee
+
+	public Vector<Info> GetIceCoffee() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
+		//모든 상품 목록들을 리턴한다.
+		PreparedStatement pstmt = null ;
+		ResultSet rs = null ;
+		String sql = "select menu, price from coffeemenu where menucode like 'I%'";
+		Vector<Info> lists = new Vector<Info>();
+		try {
+			conn = getConnection() ;
+			pstmt = conn.prepareStatement(sql) ; 
+
+			rs = pstmt.executeQuery() ;
+
+			while(rs.next()){
+				Info ice = new Info() ;
+				ice.setMenu(rs.getString("menu"));	
+				ice.setPrice(rs.getInt("price"));
+				lists.add( ice ) ;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}finally{
+			try {
+				if(rs != null) {rs.close(); }
+				if(pstmt != null) {pstmt.close(); }
+				closeConnection() ;
+			} catch (Exception e2) {
+				e2.printStackTrace(); 
+			}
+		}
+		return lists ;
+	}//GetIceCoffee
+
+	public Vector<Info> GetBeverageCoffee() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
+		//모든 상품 목록들을 리턴한다.
+		PreparedStatement pstmt = null ;
+		ResultSet rs = null ;
+		String sql = "select menu, price from coffeemenu where menucode like 'B%'";
+		Vector<Info> lists = new Vector<Info>();
+		try {
+			conn = getConnection() ;
+			pstmt = conn.prepareStatement(sql) ; 
+
+			rs = pstmt.executeQuery() ;
+
+			while(rs.next()){
+				Info beverage = new Info() ;
+				beverage.setMenu(rs.getString("menu"));		
+				beverage.setPrice(rs.getInt("price"));
+				lists.add( beverage ) ;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}finally{
+			try {
+				if(rs != null) {rs.close(); }
+				if(pstmt != null) {pstmt.close(); }
+				closeConnection() ;
+			} catch (Exception e2) {
+				e2.printStackTrace(); 
+			}
+		}
+		return lists ;
+	}//GetBeverageCoffee
 
 	public  Vector<Info> Getsellcount(){// 오늘 판매된 음료수
 		PreparedStatement pstmt = null ;
@@ -95,20 +232,20 @@ public class CoffeeDAO {
 		try {
 			conn = getConnection() ;
 			pstmt = conn.prepareStatement(sql) ; 
-			
+
 			rs = pstmt.executeQuery() ;
-			
+
 			while(rs.next()){
 				Info coffee = new Info() ;
 				coffee.setMenu (rs.getString("menu"));
 				coffee.setPrice( rs.getInt("count(*)") ); 
-				
+
 				lists.add( coffee ) ;
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 		}finally{
 			try {
 				if(rs != null) {rs.close(); }
@@ -120,7 +257,7 @@ public class CoffeeDAO {
 		}
 		return lists ;
 	}//Getsellcount
-	
+
 	public Vector<Info> GetAllSellList() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
 		//모든 상품 목록들을 리턴한다.
 		PreparedStatement pstmt = null ;
@@ -130,22 +267,22 @@ public class CoffeeDAO {
 		try {
 			conn = getConnection() ;
 			pstmt = conn.prepareStatement(sql) ; 
-			
+
 			rs = pstmt.executeQuery() ;
-			
+
 			while(rs.next()){
 				Info info = new Info() ;
 				info.setMenuCode(rs.getString("menucode"));
 				info.setMenu(rs.getString("menu"));
 				info.setPrice( rs.getInt("price") ); 
 				info.setDate(rs.getString("ordertime"));
-				
+
 				lists.add( info ) ;
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 		}finally{
 			try {
 				if(rs != null) {rs.close(); }
@@ -157,64 +294,64 @@ public class CoffeeDAO {
 		}
 		return lists ;
 	}//GetAllSellList
-	
-public Object[][] makeArr(Vector<Info> lists){//벡터를 받아서 전체를 2차원 배열로 만들어주는 메소드
-		
+
+	public Object[][] makeArr(Vector<Info> lists){//벡터를 받아서 전체를 2차원 배열로 만들어주는 메소드
+
 		Object [][] coffeearr = new Object [lists.size()][4]; 			
-				
-			for(int i=0; i<lists.size();i++){
-				coffeearr[i][0]=lists.get(i).getMenuCode();
-				coffeearr[i][1]=lists.get(i).getMenu();
-				coffeearr[i][2]=lists.get(i).getPrice();
-				coffeearr[i][3]=lists.get(i).getDate();
-			}			
-			
+
+		for(int i=0; i<lists.size();i++){
+			coffeearr[i][0]=lists.get(i).getMenuCode();
+			coffeearr[i][1]=lists.get(i).getMenu();
+			coffeearr[i][2]=lists.get(i).getPrice();
+			coffeearr[i][3]=lists.get(i).getDate();
+		}			
+
 		return coffeearr;
-		
+
 	}//makeArr
 
-public Object[][] makelistArr(Vector<Info> lists){//벡터를 받아서 판대량을 2차원 배열로 만들어주는 메소드
-	
-	Object [][] coffeearr = new Object [lists.size()][2]; 
-						
+	public Object[][] makelistArr(Vector<Info> lists){//벡터를 받아서 판대량을 2차원 배열로 만들어주는 메소드
+
+		Object [][] coffeearr = new Object [lists.size()][2]; 
+
 		for(int i=0; i<lists.size();i++){
 			coffeearr[i][0]=lists.get(i).getMenu();
 			coffeearr[i][1]=lists.get(i).getPrice();
 		}		
-		
-	return coffeearr;
-	
-}//makeArr
 
-public int delete (String menu) throws Exception {
-	int result = -1;
-    
-    Connection conn = this.getConnection();// 연결 객체
-    PreparedStatement pstmt = null;// SQL 해석 객체
-    String sql = "delete coffeemenu where menu = ?";
+		return coffeearr;
 
-    try {
-        pstmt = conn.prepareStatement(sql); // SQL 해석
-        pstmt.setString(1, menu);
-        if(pstmt.executeUpdate()==1){
-            JOptionPane.showMessageDialog(null, "삭제 완료");
-        }else{
-        	 JOptionPane.showMessageDialog(null, "삭제 오류");
-        }
-        
-    	result = pstmt.executeUpdate();
-		conn.commit();	        
-    } catch (Exception e) {
-        e.printStackTrace();
-    }finally{
+	}//makeArr
+
+	public int delete (String menu) throws Exception {
+		int result = -1;
+
+		Connection conn = this.getConnection();// 연결 객체
+		PreparedStatement pstmt = null;// SQL 해석 객체
+		String sql = "delete coffeemenu where menu = ?";
+
 		try {
-			if(pstmt != null) {pstmt.close(); }
-			closeConnection() ;
-		} catch (Exception e2) {
-			e2.printStackTrace(); 
+			pstmt = conn.prepareStatement(sql); // SQL 해석
+			pstmt.setString(1, menu);
+			if(pstmt.executeUpdate()==1){
+				JOptionPane.showMessageDialog(null, "삭제 완료");
+			}else{
+				JOptionPane.showMessageDialog(null, "삭제 오류");
+			}
+
+			result = pstmt.executeUpdate();
+			conn.commit();	        
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				if(pstmt != null) {pstmt.close(); }
+				closeConnection() ;
+			} catch (Exception e2) {
+				e2.printStackTrace(); 
+			}
 		}
+		return result;
 	}
-    return result;
-}
-	
+
 }
