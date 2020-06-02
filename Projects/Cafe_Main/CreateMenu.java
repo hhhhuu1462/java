@@ -39,7 +39,7 @@ public class CreateMenu extends JFrame {
 		panel1.add(menuNameLbl);
 		
 		JLabel menuPriceLbl = new JLabel("메뉴 가격");
-		menuPriceLbl.setBounds(37, 150, 40, 36);
+		menuPriceLbl.setBounds(12, 150, 65, 36);
 		panel1.add(menuPriceLbl);
 		
 		JPanel panel3 = new JPanel();
@@ -78,12 +78,9 @@ public class CreateMenu extends JFrame {
 				int n = coffeeDAO.menuAdd(menuCode, menuName, menuPrice);
 				if(n==1) {
 					int result = JOptionPane.showConfirmDialog(null, "메뉴가 생성되었습니다.", "메뉴생성", JOptionPane.YES_OPTION);
-					if (result == JOptionPane.YES_OPTION) {
-						main.revalidate();
-						main.repaint();
-					}					
-				} else {
-					dispose();
+					if(result == JOptionPane.YES_OPTION) {
+						dispose();
+					}
 				}
 			}
 		});

@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 public class CoffeeDAO {
 
 	private String driver = "oracle.jdbc.driver.OracleDriver" ;
-	private String url = "jdbc:oracle:thin:@localhost:1521:xe" ;
+	private String url = "jdbc:oracle:thin:@localhost:1521:TestDB" ;
 	private String username = "scott" ;
 	private String password = "tiger" ;
 	private Connection conn = null ;	
@@ -58,6 +58,8 @@ public class CoffeeDAO {
 			sql ="select password from login where id = ?";
 			pstmt =conn.prepareStatement(sql);
 			pstmt.setString(1, id);
+			
+			
 			rs=pstmt.executeQuery();
 
 			if(rs.next()){
@@ -93,6 +95,8 @@ public class CoffeeDAO {
 			pstmt.setString(1, menuCode);
 			pstmt.setString(2, menuName);
 			pstmt.setInt(3, menuPrice);
+			
+			result = pstmt.executeUpdate();
 			conn.commit();	
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -114,7 +118,7 @@ public class CoffeeDAO {
 		}
 
 		return result;
-	}//coffeeadd
+	}//menuAdd
 
 	public int coffeeadd(String menucode, String menu, int price, String ordertime){//콘솔창에서 데이터를 입력받아 객체 생성
 		int result =-1;

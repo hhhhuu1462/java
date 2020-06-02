@@ -116,7 +116,7 @@ public class Main extends JFrame {
 			String cmd = e.getActionCommand();
 			switch (cmd) {
 			case "추가" :
-				new CreateMenu();		
+				new CreateMenu();	
 				break;
 			case "삭제" :
 				String delete = (String) JOptionPane.showInputDialog("삭제할 메뉴를 적어주세요");

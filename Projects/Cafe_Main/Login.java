@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
 import java.util.Vector;
 
 public class Login extends JFrame {
@@ -17,25 +16,8 @@ public class Login extends JFrame {
 	private JTextField textField;
 	private JPasswordField passwordField;
 
-	Connection conn; //데이터베이스에 접근하게 해주는 객체
-	PreparedStatement pstmt;
-	ResultSet rs; //정보를 담을 수 있는 객체
-	
-	
-
 	public Login() {
-		//자동으로 데이터베이스 커넥션이 이루어질 수 있도록 접속하게해주는 소스
-		try {
-			String dbURL ="jdbc:oracle:thin:@localhost:1521:xe";
-			//데이터베이스 주소
-			String dbID = "scott";    //데이터베이스 아이디
-			String dbPassword = "tiger";    //데이터베이스 비밀번호
-			Class.forName("oracle.jdbc.driver.OracleDriver");    // db에 접속하는 매개체역할 
-			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
-		}catch(Exception e) {
-			e.printStackTrace(); //오류발생시 오류내용 출력하게 해주는 소스
-		}
-
+	
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 390, 214);
