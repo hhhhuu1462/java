@@ -79,6 +79,42 @@ public class CoffeeDAO {
 		}
 		return result;
 	}
+	
+	public int menuAdd(String menuCode, String menuName, int menuPrice){//콘솔창에서 데이터를 입력받아 객체 생성
+		int result =-1;
+		PreparedStatement pstmt =null;
+		ResultSet rs = null;		
+
+		try {
+			conn = getConnection();
+			String sql = "insert into coffeemenu (menucode, menu, price) values (?, ?, ?)";
+			pstmt= conn.prepareStatement(sql);
+
+			pstmt.setString(1, menuCode);
+			pstmt.setString(2, menuName);
+			pstmt.setInt(3, menuPrice);
+			conn.commit();	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}catch (Exception e) {
+			e.printStackTrace();
+			try {
+				conn.rollback(); 
+			} catch (Exception e2) {
+				e2.printStackTrace();  
+			}
+		}finally{
+			try {
+				if(rs != null) {rs.close(); }
+				if(pstmt != null) {pstmt.close(); }
+				closeConnection() ;
+			} catch (Exception e2) {
+				e2.printStackTrace(); 
+			}
+		}
+
+		return result;
+	}//coffeeadd
 
 	public int coffeeadd(String menucode, String menu, int price, String ordertime){//콘솔창에서 데이터를 입력받아 객체 생성
 		int result =-1;

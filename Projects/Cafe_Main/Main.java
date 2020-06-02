@@ -35,11 +35,11 @@ public class Main extends JFrame {
 	public Main() {
 		super("Ezen Cafeteria");
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 902, 563);
 
 		launched();
-		createMenu();		
+		createMenuBar();		
 
 		ImageIcon img = new ImageIcon("C:\\git!\\java\\Projects\\Cafe_Main\\짱구.jpg");
 		setIconImage(img.getImage());
@@ -47,7 +47,7 @@ public class Main extends JFrame {
 		setVisible(true);
 	}
 
-	public void createMenu() {
+	public void createMenuBar() {
 		JMenuBar mb = new JMenuBar(); 
 		JMenuItem [] menuItem = new JMenuItem [1];
 		String[] itemTitle = {"Exit"};
@@ -116,16 +116,11 @@ public class Main extends JFrame {
 			String cmd = e.getActionCommand();
 			switch (cmd) {
 			case "추가" :
-				for (int i = 0; i < HotCoffeeBtn.length; i++) {
-					if(HotCoffeeBtn[i].equals("")) {
-
-					}
-				}
+				new CreateMenu();		
 				break;
 			case "삭제" :
 				String delete = (String) JOptionPane.showInputDialog("삭제할 메뉴를 적어주세요");
 				CoffeeDAO coffeeDAO = new CoffeeDAO();
-				Info info = new Info();
 				String menu = delete;
 				try {
 					int n = coffeeDAO.delete(menu);
@@ -318,8 +313,7 @@ public class Main extends JFrame {
 								int paymoney = 0;
 								paymoney = Integer.parseInt(str);	
 								if(sum <= paymoney) {
-									CoffeeDAO coffeeDAO = new CoffeeDAO();
-									Info info = new Info();
+									CoffeeDAO coffeeDAO = new CoffeeDAO();									
 									for (int i = 0; i < menuTable.getRowCount(); i++) {
 										SimpleDateFormat format2 = new SimpleDateFormat ("yyyy년 MM월dd일 HH시mm분ss초");
 										String format_time2 = format2.format (System.currentTimeMillis());
@@ -458,8 +452,5 @@ public class Main extends JFrame {
 
 
 	}
-
-	public static void main(String[] args) {
-		Main frame = new Main();
-	}
+	
 }
