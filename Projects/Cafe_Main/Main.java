@@ -2,6 +2,9 @@ package Cafe_Main;
 
 import javax.swing.*;
 import javax.swing.table.*;
+
+import javafx.scene.control.RadioButton;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
@@ -145,7 +148,6 @@ public class Main extends JFrame {
 							ShakeFlatchino[i] = "";											
 						}
 					}
-
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -313,19 +315,21 @@ public class Main extends JFrame {
 								int paymoney = 0;
 								paymoney = Integer.parseInt(str);	
 								if(sum <= paymoney) {
-									CoffeeDAO coffeeDAO = new CoffeeDAO();									
+									CoffeeDAO coffeeDAO = new CoffeeDAO();	
+									int price = 0;
 									for (int i = 0; i < menuTable.getRowCount(); i++) {
 										SimpleDateFormat format2 = new SimpleDateFormat ("yyyy년 MM월dd일 HH시mm분ss초");
 										String format_time2 = format2.format (System.currentTimeMillis());
 
+										String payway = (String) cash.getText();
 										String menucode = (String) menuTable.getValueAt(i, 0);	
 										String menu = (String) menuTable.getValueAt(i, 0);		
-										int price = (int) menuTable.getValueAt(i, 2);
+										price = (int) menuTable.getValueAt(i, 2);
 										String ordertime = format_time2;
-
-										int n = coffeeDAO.coffeeadd(menucode, menu, price, ordertime);
+										
+										int n = coffeeDAO.coffeeadd(payway, menucode, menu, price, ordertime);
 									}									
-									JOptionPane.showMessageDialog(null, "결제되었습니다", "결제창", JOptionPane.PLAIN_MESSAGE);
+									JOptionPane.showMessageDialog(null, "결제되었습니다. 거스름돈은 " + (paymoney - sum) + "원 입니다", "결제창", JOptionPane.PLAIN_MESSAGE);
 									payment.dispose();
 									DefaultTableModel model = (DefaultTableModel)menuTable.getModel();
 									model.setNumRows(0);
@@ -338,7 +342,43 @@ public class Main extends JFrame {
 						});
 					} 
 				}else if(card.isSelected()==true) {
-					JOptionPane.showConfirmDialog(null, "카드결제 하시겠습니까?", "결제창", JOptionPane.YES_OPTION);
+					int exitOptionCard = JOptionPane.showConfirmDialog(null, "카드결제 하시겠습니까?", "결제창", JOptionPane.YES_OPTION);
+					if (exitOptionCard == JOptionPane.YES_OPTION) {
+						Payment payment = new Payment();
+						payment.payBtn.addActionListener(new ActionListener() {							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								String str = "";
+								str = payment.payMoney.getText();
+//								str = str.trim();
+								int paymoney = 0;
+								paymoney = Integer.parseInt(str);	
+								if(sum <= paymoney) {
+									CoffeeDAO coffeeDAO = new CoffeeDAO();									
+									for (int i = 0; i < menuTable.getRowCount(); i++) {
+										SimpleDateFormat format2 = new SimpleDateFormat ("yyyy년 MM월dd일 HH시mm분ss초");
+										String format_time2 = format2.format (System.currentTimeMillis());
+
+										String payway = (String) card.getText();
+										String menucode = (String) menuTable.getValueAt(i, 0);	
+										String menu = (String) menuTable.getValueAt(i, 0);		
+										int price = (int) menuTable.getValueAt(i, 2);
+										String ordertime = format_time2;
+
+										int n = coffeeDAO.coffeeadd(payway, menucode, menu, price, ordertime);
+									}									
+									JOptionPane.showMessageDialog(null, "결제되었습니다", "결제창", JOptionPane.PLAIN_MESSAGE);
+									payment.dispose();
+									DefaultTableModel model = (DefaultTableModel)menuTable.getModel();
+									model.setNumRows(0);
+									tf.setText("");
+								} else {
+									JOptionPane.showMessageDialog(null, "잔액 부족입니다. 다른 결제 수단을 이용해 주세요:(", "결제창", JOptionPane.INFORMATION_MESSAGE);
+									payment.dispose();
+								}
+							}
+						});
+					} 					
 				}	
 			}
 		});
@@ -449,7 +489,6 @@ public class Main extends JFrame {
 		panel6.setLayout(null);
 		tf.setBounds(0, 0, 353, 58);
 		panel6.add(tf);
-
 
 	}
 	

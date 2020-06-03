@@ -10,6 +10,8 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class Sales extends JFrame {
 
@@ -18,16 +20,18 @@ public class Sales extends JFrame {
 	Vector<Info> rowData = null;
 	CoffeeDAO coffeeDAO = null;
 
-	Object [] ColName = {"MenuCode", "메뉴", "가격", "날짜"};
+	Object [] ColName = {"결제 방법", "MenuCode", "메뉴", "가격", "날짜"};
 	Object[] sellName = {"메뉴", "판매잔수"};
 	private JTable table;
 	private JTable table2;
-	JLabel salesLabel;
-
+	JLabel totalLabel;
+	JLabel cashLabel;
+	JLabel cardLabel;	
+	
 	public Sales() {		
 		super("매출목록");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(1020, 120, 600, 500);
+		setBounds(1020, 120, 592, 500);
 
 		coffeeDAO = new CoffeeDAO();
 		rowData = coffeeDAO.GetAllSellList();
@@ -39,7 +43,7 @@ public class Sales extends JFrame {
 
 		table = new JTable(coffeeDAO.makeArr(coffeeDAO.GetAllSellList()),ColName);
 		// 셀 간격 조절
-		table.getColumn(ColName[3]).setPreferredWidth(170);
+		table.getColumn(ColName[4]).setPreferredWidth(170);
 		table.setRowHeight(38);
 		table.setBounds(10, 10, 562, 285);
 		tablePanel.add(table);
@@ -68,11 +72,23 @@ public class Sales extends JFrame {
 		salesBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {//테이블에 전체 매출 리스트 출력
 				rowData =coffeeDAO.GetAllSellList();
-				int sum=0;
+				int totalSum=0;
 				for(int i=0; i<rowData.size();i++){					
-					sum += rowData.get(i).getPrice();
+					totalSum += rowData.get(i).getPrice();
+				}			
+				rowData = coffeeDAO.GetTotalCash();
+				int totalCash = 0;
+				for (int i = 0; i < rowData.size(); i++) {
+					totalCash += rowData.get(i).getTotalCash();
+				}
+				rowData = coffeeDAO.GetTotalCard();
+				int totalCard = 0;
+				for (int i = 0; i < rowData.size(); i++) {
+					totalCard += rowData.get(i).getTotalCard();
 				}				
-				salesLabel.setText("오늘의 매출은 "+Integer.toString(sum)+" 입니다.");				
+				totalLabel.setText("금일 총 매출 : " + Integer.toString(totalSum));				
+				cashLabel.setText("금일 카드 매출 : " + Integer.toString(totalCard));
+				cardLabel.setText("금일 현금 매출 : " + Integer.toString(totalCash));
 			}
 		});
 		salesBtn.setBounds(196, 12, 167, 62);
@@ -99,15 +115,26 @@ public class Sales extends JFrame {
 		buttonPanel.add(menuBtn);	
 
 		Panel salesPanel = new Panel();
-		salesPanel.setBounds(10, 309, 562, 39);
+		salesPanel.setBounds(10, 309, 574, 39);
 		getContentPane().add(salesPanel);
 		salesPanel.setLayout(null);
 
-		salesLabel = new JLabel("");
-		salesLabel.setBounds(0, 12, 562, 35);
-		salesPanel.add(salesLabel);
+		totalLabel = new JLabel("");
+		totalLabel.setFont(new Font("HY나무M", Font.PLAIN, 15));
+		totalLabel.setBounds(12, 0, 173, 35);
+		salesPanel.add(totalLabel);
+		
+		cashLabel= new JLabel("");
+		cashLabel.setFont(new Font("HY나무M", Font.PLAIN, 15));
+		cashLabel.setBounds(204, 0, 173, 35);
+		salesPanel.add(cashLabel);
+		
+		cardLabel = new JLabel("");
+		cardLabel.setFont(new Font("HY나무M", Font.PLAIN, 15));
+		cardLabel.setBounds(401, 0, 173, 35);
+		salesPanel.add(cardLabel);
 
-		setResizable(true);
+		setResizable(false);
 		getContentPane().setLayout(null);
 
 		setVisible(true);

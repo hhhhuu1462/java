@@ -9,7 +9,16 @@ public class Info extends Object {
 	String menu;
 	int price;
 	String date;
+	String payway;
+	int totalCash;
+	int totalCard;
 	
+	public int getTotalCash() {	return totalCash;}
+	public void setTotalCash(int totalCash) {this.totalCash = totalCash;}
+	public int getTotalCard() {return totalCard;}
+	public void setTotalCard(int totalCard) {this.totalCard = totalCard;}
+	public String getPayway() {return payway;}
+	public void setPayway(String payway) {	this.payway = payway;	}
 	public String getMenuCode() {	return menuCode;}
 	public void setMenuCode(String menuCode) {this.menuCode = menuCode;}
 	public String getMenu() {return menu;	}

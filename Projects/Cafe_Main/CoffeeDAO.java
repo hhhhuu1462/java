@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 public class CoffeeDAO {
 
 	private String driver = "oracle.jdbc.driver.OracleDriver" ;
-	private String url = "jdbc:oracle:thin:@localhost:1521:TestDB" ;
+	private String url = "jdbc:oracle:thin:@localhost:1521:xe" ;
 	private String username = "scott" ;
 	private String password = "tiger" ;
 	private Connection conn = null ;	
@@ -120,20 +120,21 @@ public class CoffeeDAO {
 		return result;
 	}//menuAdd
 
-	public int coffeeadd(String menucode, String menu, int price, String ordertime){//콘솔창에서 데이터를 입력받아 객체 생성
+	public int coffeeadd(String payway, String menucode, String menu, int price, String ordertime){//콘솔창에서 데이터를 입력받아 객체 생성
 		int result =-1;
 		PreparedStatement pstmt =null;
 		ResultSet rs = null;		
 
 		try {
 			conn = getConnection();
-			String sql = "insert into coffee (menucode, menu, price, ordertime) values ((select menucode from coffeemenu where menu=?), ?, ?, ?)";
+			String sql = "insert into coffee (payway, menucode, menu, price, ordertime) values (?, (select menucode from coffeemenu where menu=?), ?, ?, ?)";
 			pstmt= conn.prepareStatement(sql);
 
-			pstmt.setString(1, menu);
+			pstmt.setString(1,  payway);
 			pstmt.setString(2, menu);
-			pstmt.setInt(3, price);
-			pstmt.setString(4, ordertime);
+			pstmt.setString(3, menu);
+			pstmt.setInt(4, price);
+			pstmt.setString(5, ordertime);
 
 			result = pstmt.executeUpdate();
 			conn.commit();	
@@ -158,7 +159,73 @@ public class CoffeeDAO {
 
 		return result;
 	}//coffeeadd
+	
+	public Vector<Info> GetTotalCash() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
+		//모든 상품 목록들을 리턴한다.
+		PreparedStatement pstmt = null ;
+		ResultSet rs = null ;
+		String sql = "select sum(price) from coffee where payway like '현금'";
+		Vector<Info> lists = new Vector<Info>();
+		try {
+			conn = getConnection() ;
+			pstmt = conn.prepareStatement(sql) ; 
 
+			rs = pstmt.executeQuery() ;
+
+			while(rs.next()){
+				Info totalCash = new Info() ;
+				totalCash.setTotalCash(rs.getInt("sum(price)"));					
+				lists.add( totalCash ) ;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}finally{
+			try {
+				if(rs != null) {rs.close(); }
+				if(pstmt != null) {pstmt.close(); }
+				closeConnection() ;
+			} catch (Exception e2) {
+				e2.printStackTrace(); 
+			}
+		}
+		return lists ;
+	}//GetIceCoffee
+
+	public Vector<Info> GetTotalCard() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
+		//모든 상품 목록들을 리턴한다.
+		PreparedStatement pstmt = null ;
+		ResultSet rs = null ;
+		String sql = "select sum(price) from coffee where payway like '카드'";
+		Vector<Info> lists = new Vector<Info>();
+		try {
+			conn = getConnection() ;
+			pstmt = conn.prepareStatement(sql) ; 
+
+			rs = pstmt.executeQuery() ;
+
+			while(rs.next()){
+				Info totalCard = new Info() ;
+				totalCard.setTotalCard(rs.getInt("sum(price)"));					
+				lists.add( totalCard ) ;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}finally{
+			try {
+				if(rs != null) {rs.close(); }
+				if(pstmt != null) {pstmt.close(); }
+				closeConnection() ;
+			} catch (Exception e2) {
+				e2.printStackTrace(); 
+			}
+		}
+		return lists ;
+	}//GetIceCoffee
+	
 	public Vector<Info> GetHotCoffee() { // hot coffee
 		//모든 상품 목록들을 리턴한다.
 		PreparedStatement pstmt = null ;
@@ -312,6 +379,7 @@ public class CoffeeDAO {
 
 			while(rs.next()){
 				Info info = new Info() ;
+				info.setPayway(rs.getString("payway"));
 				info.setMenuCode(rs.getString("menucode"));
 				info.setMenu(rs.getString("menu"));
 				info.setPrice( rs.getInt("price") ); 
@@ -337,13 +405,14 @@ public class CoffeeDAO {
 
 	public Object[][] makeArr(Vector<Info> lists){//벡터를 받아서 전체를 2차원 배열로 만들어주는 메소드
 
-		Object [][] coffeearr = new Object [lists.size()][4]; 			
+		Object [][] coffeearr = new Object [lists.size()][5]; 			
 
 		for(int i=0; i<lists.size();i++){
-			coffeearr[i][0]=lists.get(i).getMenuCode();
-			coffeearr[i][1]=lists.get(i).getMenu();
-			coffeearr[i][2]=lists.get(i).getPrice();
-			coffeearr[i][3]=lists.get(i).getDate();
+			coffeearr[i][0]=lists.get(i).getPayway();
+			coffeearr[i][1]=lists.get(i).getMenuCode();
+			coffeearr[i][2]=lists.get(i).getMenu();
+			coffeearr[i][3]=lists.get(i).getPrice();
+			coffeearr[i][4]=lists.get(i).getDate();
 		}			
 
 		return coffeearr;
