@@ -9,10 +9,6 @@ public class Discount extends JFrame {
 	
 	JButton btn10, btn20, btnFree;
 
-	public static void main(String[] args) {
-		new Discount();
-	}
-
 	public Discount() {
 		setTitle("«“¿Œ");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

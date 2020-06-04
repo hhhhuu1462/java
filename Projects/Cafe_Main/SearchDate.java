@@ -1,23 +1,13 @@
 package Cafe_Main;
 
-import java.awt.BorderLayout;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Vector;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class SearchDate extends JFrame {
-	
-	Vector<Info> rowData = null;
-	CoffeeDAO coffeeDAO = null;
-	
+
 	private static final long serialVersionUID = -6164585024334891592L;
 	
 	JTextField yearTf;
@@ -43,14 +33,12 @@ public class SearchDate extends JFrame {
 		yearTf = new JTextField();
 		yearTf.setBounds(33, 19, 65, 21);
 		panel.add(yearTf);
-		yearTf.setColumns(10);
 		
 		JLabel month = new JLabel("¿ù");
 		month.setBounds(137, 22, 20, 15);
 		panel.add(month);
 		
 		monthTf = new JTextField();
-		monthTf.setColumns(10);
 		monthTf.setBounds(157, 19, 65, 21);
 		panel.add(monthTf);
 		
@@ -59,7 +47,6 @@ public class SearchDate extends JFrame {
 		panel.add(day);
 		
 		dayTf = new JTextField();
-		dayTf.setColumns(10);
 		dayTf.setBounds(292, 19, 65, 21);
 		panel.add(dayTf);
 		

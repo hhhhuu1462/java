@@ -10,7 +10,6 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.Font;
 
@@ -20,10 +19,11 @@ public class Sales extends JFrame {
 
 	Vector<Info> rowData = null;
 	CoffeeDAO coffeeDAO = null;
+	SearchDate searchMenu;
 
-	String [] ColName = {"결제 방법", "MenuCode", "메뉴", "가격", "날짜"};
+	String[] ColName = {"결제 방법", "MenuCode", "메뉴", "가격", "날짜"};
 	String[] sellName = {"메뉴", "판매잔수"};
-	String[] searchDate = {"메뉴", "판매잔수"};
+	String[] searchDate = {"결제방법", "메뉴", "가격", "날짜"};
 	JTable table;
 	JTable table2;
 	JTable table3;
@@ -123,13 +123,29 @@ public class Sales extends JFrame {
 		search.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SearchDate searchDate = new SearchDate();
-				searchDate.searchBtn.addActionListener(new ActionListener() {					
+				searchMenu = new SearchDate();				
+				searchMenu.searchBtn.addActionListener(new ActionListener() {					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						String year = searchDate.yearTf.getText();
-						String month = searchDate.monthTf.getText();
-						String day = searchDate.dayTf.getText();
+						Info info = new Info();
+						String year = searchMenu.yearTf.getText().trim();
+						String month = searchMenu.monthTf.getText().trim();
+						String day = searchMenu.dayTf.getText().trim();
+						info.setYear(year);
+						info.setMonth(month);
+						info.setDay(day);
+						rowData =coffeeDAO.GetAllSellList();
+						scrollPane.setVisible(false);
+						table3 = new JTable(coffeeDAO.makeDate(coffeeDAO.GetDate()), searchDate);
+						table3.setRowHeight(38);
+						table3.setBounds(1, 27, 450, 288);
+						tablePanel.add(table3);
+
+						JScrollPane scrollPane = new JScrollPane(table3);
+						scrollPane.setBounds(0, 0, 562, 285);
+						scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+						scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+						tablePanel.add(scrollPane);				
 					}
 				});
 			}

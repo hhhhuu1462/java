@@ -365,13 +365,12 @@ public class CoffeeDAO {
 		return lists ;
 	}//Getsellcount
 	
-	public  Vector<Info> GetSearchDate(){// 오늘 판매된 음료수
+	public  Vector<Info> GetDate(){// 오늘 판매된 음료수
+		
 		PreparedStatement pstmt = null ;
 		ResultSet rs = null ;
-		// 메뉴 이름과 그 메뉴의 개수를 전체 행에서 파악
-		// group by : 메뉴를 기준으로 그룹화 함 (by 판매개수)
-		// order by :정렬기준
-		String sql = "select * from coffee where ordertime like '?년 ?월 ?일%'" ; 
+		
+		String sql = "select payway, menu, price, ordertime from coffee where ordertime like '"+year+"년 "+month+"월 "+day+"일%'" ;
 		Vector<Info> lists = new Vector<Info>();
 		try {
 			conn = getConnection() ;
@@ -380,13 +379,13 @@ public class CoffeeDAO {
 			rs = pstmt.executeQuery() ;
 
 			while(rs.next()){
-				Info info = new Info() ;
-				pstmt.setString(1,  year);
-				info.setPayway(rs.getString("payway"));
-				info.setMenuCode(rs.getString("menucode"));
-				info.setMenu(rs.getString("menu"));
-				info.setPrice( rs.getInt("price") ); 
-				info.setDate(rs.getString("ordertime"));
+				Info coffee = new Info() ;
+				coffee.setPayway(rs.getString("payway"));
+				coffee.setMenu(rs.getString("menu"));
+				coffee.setPrice( rs.getInt("price") ); 
+				coffee.setDate(rs.getString("ordertime"));
+
+				lists.add( coffee ) ;
 			}
 
 		} catch (Exception e) {
@@ -403,6 +402,7 @@ public class CoffeeDAO {
 		}
 		return lists ;
 	}//Getsellcount
+
 
 	public Vector<Info> GetAllSellList() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
 		//모든 상품 목록들을 리턴한다.
@@ -440,6 +440,22 @@ public class CoffeeDAO {
 		}
 		return lists ;
 	}//GetAllSellList
+	
+	public Object[][] makeDate(Vector<Info> lists){//벡터를 받아서 전체를 2차원 배열로 만들어주는 메소드
+
+		Object [][] coffeearr = new Object [lists.size()][4]; 			
+
+		for(int i=0; i<lists.size();i++){
+			coffeearr[i][0]=lists.get(i).getPayway();
+			coffeearr[i][1]=lists.get(i).getMenu();
+			coffeearr[i][2]=lists.get(i).getPrice();
+			coffeearr[i][3]=lists.get(i).getDate();
+		}			
+
+		return coffeearr;
+
+	}//makeArr
+
 
 	public Object[][] makeArr(Vector<Info> lists){//벡터를 받아서 전체를 2차원 배열로 만들어주는 메소드
 

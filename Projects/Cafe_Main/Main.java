@@ -146,7 +146,6 @@ public class Main extends JFrame {
 						}
 					}
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -316,7 +315,7 @@ public class Main extends JFrame {
 									CoffeeDAO coffeeDAO = new CoffeeDAO();	
 									int price = 0;
 									for (int i = 0; i < menuTable.getRowCount(); i++) {
-										SimpleDateFormat format2 = new SimpleDateFormat ("yyyy년 MM월dd일 HH시mm분ss초");
+										SimpleDateFormat format2 = new SimpleDateFormat ("yyyy년 MM월 dd일 HH시mm분ss초");
 										String format_time2 = format2.format (System.currentTimeMillis());
 
 										String payway = (String) cash.getText();
