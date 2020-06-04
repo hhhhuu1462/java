@@ -381,6 +381,7 @@ public class CoffeeDAO {
 
 			while(rs.next()){
 				Info info = new Info() ;
+				pstmt.setString(1,  year);
 				info.setPayway(rs.getString("payway"));
 				info.setMenuCode(rs.getString("menucode"));
 				info.setMenu(rs.getString("menu"));

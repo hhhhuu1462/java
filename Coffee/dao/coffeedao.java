@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import javax.swing.Icon;
 
 import bean.Coffee;
 
@@ -88,48 +89,6 @@ public class coffeedao {
 	}//coffeeadd
 	
 	
-	
-	
-	
-	
-	public  Vector<Coffee> Getsellcount(){// 오늘 판매된 음료수
-		PreparedStatement pstmt = null ;
-		ResultSet rs = null ;
-		String sql = "select coffeename , count(*)  from coffee group by  coffeename   order by count(*) desc" ;
-		Vector<Coffee> lists = new Vector<Coffee>();
-		try {
-			conn = getConnection() ;
-			pstmt = conn.prepareStatement(sql) ; 
-			
-			rs = pstmt.executeQuery() ;
-			
-			while(rs.next()){
-				Coffee coffee = new Coffee() ;
-				coffee.setName(rs.getString("coffeename"));
-				coffee.setPrice( rs.getInt("count(*)") ); 
-				
-				lists.add( coffee ) ;
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-		}finally{
-			try {
-				if(rs != null) {rs.close(); }
-				if(pstmt != null) {pstmt.close(); }
-				closeConnection() ;
-			} catch (Exception e2) {
-				e2.printStackTrace(); 
-			}
-		}
-		return lists ;
-	}//Getsellcount
-	
-	
-	
-	
-	
 	public Vector<Coffee> GetAllSellList() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
 		//모든 상품 목록들을 리턴한다.
 		PreparedStatement pstmt = null ;
@@ -203,7 +162,5 @@ public class coffeedao {
 			
 		return coffeearr;
 		
-	}//makeArr
-
-	
+	}//makeAr	
 }
