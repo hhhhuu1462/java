@@ -2,9 +2,6 @@ package Cafe_Main;
 
 import javax.swing.*;
 import javax.swing.table.*;
-
-import javafx.scene.control.RadioButton;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
@@ -40,7 +37,7 @@ public class Main extends JFrame {
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 902, 563);
-
+		
 		launched();
 		createMenuBar();		
 
@@ -126,7 +123,7 @@ public class Main extends JFrame {
 				CoffeeDAO coffeeDAO = new CoffeeDAO();
 				String menu = delete;
 				try {
-					int n = coffeeDAO.delete(menu);
+					coffeeDAO.delete(menu);
 					for (int i = 0; i < HotCoffeeBtn.length; i++) {
 						if(HotCoffeeBtn[i].getText().equals(delete)) {
 							HotCoffeeBtn[i].setText("");
@@ -206,7 +203,8 @@ public class Main extends JFrame {
 		HotCoffeeBtn = new JButton[11];
 		coffeeDAO = new CoffeeDAO();
 		rowData = coffeeDAO.GetHotCoffee();
-		for (int i = 0; i < HotCoffeeBtn.length; i++) {		
+		for (int i = 0; i < HotCoffeeBtn.length; i++) {	
+			
 			if (i <= rowData.size()-1) {
 				HotCoffeeBtn[i] = new JButton(rowData.get(i).getMenu());
 				panel1.add(HotCoffeeBtn[i]);	
@@ -327,7 +325,7 @@ public class Main extends JFrame {
 										price = (int) menuTable.getValueAt(i, 2);
 										String ordertime = format_time2;
 										
-										int n = coffeeDAO.coffeeadd(payway, menucode, menu, price, ordertime);
+										coffeeDAO.coffeeadd(payway, menucode, menu, price, ordertime);
 									}									
 									JOptionPane.showMessageDialog(null, "결제되었습니다. 거스름돈은 " + (paymoney - sum) + "원 입니다", "결제창", JOptionPane.PLAIN_MESSAGE);
 									payment.dispose();
@@ -350,13 +348,12 @@ public class Main extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								String str = "";
 								str = payment.payMoney.getText();
-//								str = str.trim();
 								int paymoney = 0;
 								paymoney = Integer.parseInt(str);	
 								if(sum <= paymoney) {
 									CoffeeDAO coffeeDAO = new CoffeeDAO();									
 									for (int i = 0; i < menuTable.getRowCount(); i++) {
-										SimpleDateFormat format2 = new SimpleDateFormat ("yyyy년 MM월dd일 HH시mm분ss초");
+										SimpleDateFormat format2 = new SimpleDateFormat ("yyyy년 MM월 dd일 HH시mm분ss초");
 										String format_time2 = format2.format (System.currentTimeMillis());
 
 										String payway = (String) card.getText();
@@ -365,7 +362,7 @@ public class Main extends JFrame {
 										int price = (int) menuTable.getValueAt(i, 2);
 										String ordertime = format_time2;
 
-										int n = coffeeDAO.coffeeadd(payway, menucode, menu, price, ordertime);
+										coffeeDAO.coffeeadd(payway, menucode, menu, price, ordertime);
 									}									
 									JOptionPane.showMessageDialog(null, "결제되었습니다", "결제창", JOptionPane.PLAIN_MESSAGE);
 									payment.dispose();
@@ -387,7 +384,6 @@ public class Main extends JFrame {
 		inventoryManagement[2].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JButton MBtn = (JButton)e.getSource();
 				Discount discount = new Discount();
 				discount.btn10.addActionListener(new ActionListener() {					
 					@Override
@@ -419,7 +415,6 @@ public class Main extends JFrame {
 		inventoryManagement[3].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JButton MBtn = (JButton)e.getSource();
 				DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
 				m.removeRow(menuTable.getSelectedRow());
 			}
@@ -429,7 +424,6 @@ public class Main extends JFrame {
 		inventoryManagement[4].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JButton MBtn = (JButton)e.getSource();
 				DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
 				m.setRowCount(0);
 				tf.setText(String.valueOf(""));
@@ -447,7 +441,6 @@ public class Main extends JFrame {
 			HotCoffeeBtn[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					JButton MBtn = (JButton)e.getSource();
 					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
 					String menu = HotCoffee[index];
 					m.addRow(new Object[]{menu,count, hotCoffeePrice[index]});
@@ -459,7 +452,6 @@ public class Main extends JFrame {
 			ICECoffeeBtn[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					JButton MBtn = (JButton)e.getSource();
 					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
 					String menu = ICECoffee[index];
 					m.addRow(new Object[]{menu,count, iceCoffeePrice[index]});
@@ -471,7 +463,6 @@ public class Main extends JFrame {
 			ShakeFlatchinoBtn[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					JButton MBtn = (JButton)e.getSource();
 					DefaultTableModel m = (DefaultTableModel)menuTable.getModel();
 					String menu = ShakeFlatchino[index];
 					m.addRow(new Object[]{menu,count, shakeFlatchinoPrice[index]});

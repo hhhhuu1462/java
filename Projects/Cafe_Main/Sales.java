@@ -10,7 +10,8 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 
 public class Sales extends JFrame {
@@ -20,10 +21,12 @@ public class Sales extends JFrame {
 	Vector<Info> rowData = null;
 	CoffeeDAO coffeeDAO = null;
 
-	Object [] ColName = {"결제 방법", "MenuCode", "메뉴", "가격", "날짜"};
-	Object[] sellName = {"메뉴", "판매잔수"};
-	private JTable table;
-	private JTable table2;
+	String [] ColName = {"결제 방법", "MenuCode", "메뉴", "가격", "날짜"};
+	String[] sellName = {"메뉴", "판매잔수"};
+	String[] searchDate = {"메뉴", "판매잔수"};
+	JTable table;
+	JTable table2;
+	JTable table3;
 	JLabel totalLabel;
 	JLabel cashLabel;
 	JLabel cardLabel;	
@@ -65,7 +68,7 @@ public class Sales extends JFrame {
 			}
 		});
 		buttonPanel.setLayout(null);
-		posBtn.setBounds(0, 12, 167, 62);
+		posBtn.setBounds(0, 12, 113, 62);
 		buttonPanel.add(posBtn);
 
 		JButton salesBtn = new JButton("매출");
@@ -91,7 +94,7 @@ public class Sales extends JFrame {
 				cardLabel.setText("금일 현금 매출 : " + Integer.toString(totalCash));
 			}
 		});
-		salesBtn.setBounds(196, 12, 167, 62);
+		salesBtn.setBounds(154, 12, 113, 62);
 		buttonPanel.add(salesBtn);
 
 		JButton menuBtn = new JButton("메뉴별판매");
@@ -111,8 +114,27 @@ public class Sales extends JFrame {
 				tablePanel.add(scrollPane);				
 			}
 		});
-		menuBtn.setBounds(393, 12, 167, 62);
+		menuBtn.setBounds(309, 12, 107, 62);
 		buttonPanel.add(menuBtn);	
+		
+		JButton search = new JButton("날짜 검색");
+		search.setBounds(455, 12, 107, 62);
+		buttonPanel.add(search);
+		search.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SearchDate searchDate = new SearchDate();
+				searchDate.searchBtn.addActionListener(new ActionListener() {					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String year = searchDate.yearTf.getText();
+						String month = searchDate.monthTf.getText();
+						String day = searchDate.dayTf.getText();
+					}
+				});
+			}
+		});
+		
 
 		Panel salesPanel = new Panel();
 		salesPanel.setBounds(10, 309, 574, 39);

@@ -21,7 +21,7 @@ public class CreateMenu extends JFrame {
 	
 	public CreateMenu() {
 		setTitle("메뉴생성");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 259, 344);
 		getContentPane().setLayout(null);
 		

@@ -364,6 +364,44 @@ public class CoffeeDAO {
 		}
 		return lists ;
 	}//Getsellcount
+	
+	public  Vector<Info> GetSearchDate(){// 오늘 판매된 음료수
+		PreparedStatement pstmt = null ;
+		ResultSet rs = null ;
+		// 메뉴 이름과 그 메뉴의 개수를 전체 행에서 파악
+		// group by : 메뉴를 기준으로 그룹화 함 (by 판매개수)
+		// order by :정렬기준
+		String sql = "select * from coffee where ordertime like '?년 ?월 ?일%'" ; 
+		Vector<Info> lists = new Vector<Info>();
+		try {
+			conn = getConnection() ;
+			pstmt = conn.prepareStatement(sql) ; 
+
+			rs = pstmt.executeQuery() ;
+
+			while(rs.next()){
+				Info info = new Info() ;
+				info.setPayway(rs.getString("payway"));
+				info.setMenuCode(rs.getString("menucode"));
+				info.setMenu(rs.getString("menu"));
+				info.setPrice( rs.getInt("price") ); 
+				info.setDate(rs.getString("ordertime"));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}finally{
+			try {
+				if(rs != null) {rs.close(); }
+				if(pstmt != null) {pstmt.close(); }
+				closeConnection() ;
+			} catch (Exception e2) {
+				e2.printStackTrace(); 
+			}
+		}
+		return lists ;
+	}//Getsellcount
 
 	public Vector<Info> GetAllSellList() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
 		//모든 상품 목록들을 리턴한다.
@@ -390,8 +428,7 @@ public class CoffeeDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-
-		}finally{
+		} finally{
 			try {
 				if(rs != null) {rs.close(); }
 				if(pstmt != null) {pstmt.close(); }
