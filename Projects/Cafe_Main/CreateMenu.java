@@ -1,5 +1,7 @@
 package Cafe_Main;
 
+// menu 생성 gui
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -12,8 +14,6 @@ import java.awt.event.ActionEvent;
 public class CreateMenu extends JFrame {
 
 	private static final long serialVersionUID = -7512119197350873613L;
-	
-	Main main;
 	
 	private JTextField menuCodetf;
 	private JTextField menuNametf;
@@ -73,10 +73,13 @@ public class CreateMenu extends JFrame {
 				CoffeeDAO coffeeDAO = new CoffeeDAO();	
 				String menuCode = menuCodetf.getText();
 				String menuName = menuNametf.getText();
+				// 메뉴가격은 int로 받아야 하기 때문에 textfield에 작성한 값을 integer로 형변환 시켜야 함
 				int menuPrice = Integer.parseInt(menuPricetf.getText());
 				
 				int n = coffeeDAO.menuAdd(menuCode, menuName, menuPrice);
+				// 결과값이 1이 나오면
 				if(n==1) {
+					// JOptionPane.YES_OPTION : 확인버튼이 있는 ConfirmDialog
 					int result = JOptionPane.showConfirmDialog(null, "메뉴가 생성되었습니다.", "메뉴생성", JOptionPane.YES_OPTION);
 					if(result == JOptionPane.YES_OPTION) {
 						dispose();

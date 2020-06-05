@@ -1,5 +1,7 @@
 package Cafe_Main;
 
+// ∞·¡¶√¢ gui
+
 import javax.swing.JFrame;
 import java.awt.Panel;
 

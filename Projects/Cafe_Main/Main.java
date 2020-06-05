@@ -1,5 +1,7 @@
 package Cafe_Main;
 
+// main class
+
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;

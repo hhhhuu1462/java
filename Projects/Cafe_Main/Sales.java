@@ -1,17 +1,21 @@
 package Cafe_Main;
 
+// 매출 gui
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
-
 import java.awt.Font;
+import java.awt.GridLayout;
 
 public class Sales extends JFrame {
 
@@ -19,22 +23,19 @@ public class Sales extends JFrame {
 
 	Vector<Info> rowData = null;
 	CoffeeDAO coffeeDAO = null;
-	SearchDate searchMenu;
 
 	String[] ColName = {"결제 방법", "MenuCode", "메뉴", "가격", "날짜"};
 	String[] sellName = {"메뉴", "판매잔수"};
-	String[] searchDate = {"결제방법", "메뉴", "가격", "날짜"};
 	JTable table;
 	JTable table2;
-	JTable table3;
 	JLabel totalLabel;
 	JLabel cashLabel;
 	JLabel cardLabel;	
-	
+
 	public Sales() {		
 		super("매출목록");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(1020, 120, 592, 500);
+		setBounds(1020, 120, 592, 461);
 
 		coffeeDAO = new CoffeeDAO();
 		rowData = coffeeDAO.GetAllSellList();
@@ -53,12 +54,12 @@ public class Sales extends JFrame {
 
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(0, 0, 562, 285);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		tablePanel.add(scrollPane);
 
 		Panel buttonPanel = new Panel();
-		buttonPanel.setBounds(10, 357, 562, 86);
+		buttonPanel.setBounds(10, 357, 562, 65);
 		getContentPane().add(buttonPanel);
 
 		JButton posBtn = new JButton("POS");
@@ -67,8 +68,7 @@ public class Sales extends JFrame {
 				setVisible(false);
 			}
 		});
-		buttonPanel.setLayout(null);
-		posBtn.setBounds(0, 12, 113, 62);
+		buttonPanel.setLayout(new GridLayout(0, 4, 20, 0));
 		buttonPanel.add(posBtn);
 
 		JButton salesBtn = new JButton("매출");
@@ -88,14 +88,57 @@ public class Sales extends JFrame {
 				int totalCard = 0;
 				for (int i = 0; i < rowData.size(); i++) {
 					totalCard += rowData.get(i).getTotalCard();
-				}				
-				totalLabel.setText("금일 총 매출 : " + Integer.toString(totalSum));				
-				cashLabel.setText("금일 카드 매출 : " + Integer.toString(totalCard));
-				cardLabel.setText("금일 현금 매출 : " + Integer.toString(totalCash));
+				}		
+				totalLabel.setText("총 매출 : " + Integer.toString(totalSum));				
+				cardLabel.setText("카드 매출 : " + Integer.toString(totalCard));
+				cashLabel.setText("현금 매출 : " + Integer.toString(totalCash));
 			}
 		});
-		salesBtn.setBounds(154, 12, 113, 62);
 		buttonPanel.add(salesBtn);
+
+		JButton todayBtn = new JButton("금일 매출");
+		todayBtn.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+				Date now = new Date();
+				String currentTime = simpleDateFormat.format (now);
+				
+				rowData =coffeeDAO.currentCellTotal();
+				int currentTotal = 0;
+				String beforeDate;
+				for (int i = 0; i < rowData.size(); i++) {				
+					beforeDate = rowData.get(i).getDate();
+					if (currentTime.compareTo(beforeDate) == 0) {
+						currentTotal = rowData.get(i).getPrice();	
+					}									
+				}
+				
+				rowData =coffeeDAO.currentCellCash();
+				int currentCash = 0;
+				for (int i = 0; i < rowData.size(); i++) {				
+					beforeDate = rowData.get(i).getDate();
+					if (currentTime.compareTo(beforeDate) == 0) {
+						currentCash = rowData.get(i).getTotalCash();	
+					}									
+				}
+				
+				rowData =coffeeDAO.currentCellCard();
+				int currentCard = 0;
+				for (int i = 0; i < rowData.size(); i++) {				
+					beforeDate = rowData.get(i).getDate();
+					if (currentTime.compareTo(beforeDate) == 0) {
+						currentCard = rowData.get(i).getTotalCard();	
+					}									
+				}				
+				totalLabel.setText("금일총 매출 : " + Integer.toString(currentTotal));		
+				cashLabel.setText("금일 현금 매출 : " + Integer.toString(currentCash));
+				cardLabel.setText("금일 카드 매출 : " + Integer.toString(currentCard));
+				
+			}
+		});
+		buttonPanel.add(todayBtn);
+
 
 		JButton menuBtn = new JButton("메뉴별판매");
 		menuBtn.addActionListener(new ActionListener() {
@@ -109,48 +152,12 @@ public class Sales extends JFrame {
 
 				JScrollPane scrollPane = new JScrollPane(table2);
 				scrollPane.setBounds(0, 0, 562, 285);
-				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 				tablePanel.add(scrollPane);				
 			}
 		});
-		menuBtn.setBounds(309, 12, 107, 62);
-		buttonPanel.add(menuBtn);	
-		
-		JButton search = new JButton("날짜 검색");
-		search.setBounds(455, 12, 107, 62);
-		buttonPanel.add(search);
-		search.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				searchMenu = new SearchDate();				
-				searchMenu.searchBtn.addActionListener(new ActionListener() {					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						Info info = new Info();
-						String year = searchMenu.yearTf.getText().trim();
-						String month = searchMenu.monthTf.getText().trim();
-						String day = searchMenu.dayTf.getText().trim();
-						info.setYear(year);
-						info.setMonth(month);
-						info.setDay(day);
-						rowData =coffeeDAO.GetAllSellList();
-						scrollPane.setVisible(false);
-						table3 = new JTable(coffeeDAO.makeDate(coffeeDAO.GetDate()), searchDate);
-						table3.setRowHeight(38);
-						table3.setBounds(1, 27, 450, 288);
-						tablePanel.add(table3);
-
-						JScrollPane scrollPane = new JScrollPane(table3);
-						scrollPane.setBounds(0, 0, 562, 285);
-						scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-						scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-						tablePanel.add(scrollPane);				
-					}
-				});
-			}
-		});
-		
+		buttonPanel.add(menuBtn);
 
 		Panel salesPanel = new Panel();
 		salesPanel.setBounds(10, 309, 574, 39);
@@ -161,12 +168,12 @@ public class Sales extends JFrame {
 		totalLabel.setFont(new Font("HY나무M", Font.PLAIN, 15));
 		totalLabel.setBounds(12, 0, 173, 35);
 		salesPanel.add(totalLabel);
-		
+
 		cashLabel= new JLabel("");
 		cashLabel.setFont(new Font("HY나무M", Font.PLAIN, 15));
 		cashLabel.setBounds(204, 0, 173, 35);
 		salesPanel.add(cashLabel);
-		
+
 		cardLabel = new JLabel("");
 		cardLabel.setFont(new Font("HY나무M", Font.PLAIN, 15));
 		cardLabel.setBounds(401, 0, 173, 35);

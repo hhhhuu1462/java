@@ -1,5 +1,7 @@
 package Cafe_Main;
 
+// login class
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,11 +22,11 @@ public class Login extends JFrame {
 	
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 390, 214);
+		setBounds(100, 100, 379, 190);
 		getContentPane().setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 125, 106);
+		panel.setBounds(0, 0, 125, 91);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
@@ -37,7 +39,7 @@ public class Login extends JFrame {
 		panel.add(lblPaword);
 
 		Panel panel_1 = new Panel();
-		panel_1.setBounds(131, 0, 243, 106);
+		panel_1.setBounds(131, 0, 243, 91);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 
@@ -51,13 +53,13 @@ public class Login extends JFrame {
 		panel_1.add(passwordField);
 
 		Panel panel_2 = new Panel();
-		panel_2.setBounds(0, 112, 374, 64);
+		panel_2.setBounds(0, 97, 374, 64);
 		getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 
-		JButton btnNewButton = new JButton("로그인");
-		btnNewButton.setBounds(137, 10, 111, 34);
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton loginBtn = new JButton("로그인");
+		loginBtn.setBounds(200, 10, 111, 34);
+		loginBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String id = textField.getText();
@@ -83,7 +85,18 @@ public class Login extends JFrame {
 				}
 			}
 		});
-		panel_2.add(btnNewButton);
+		panel_2.add(loginBtn);
+		
+		JButton resetBtn = new JButton("reset");
+		resetBtn.setBounds(66, 10, 111, 34);
+		resetBtn.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textField.setText("");
+				passwordField.setText("");
+			}
+		});
+		panel_2.add(resetBtn);
 		
 		setVisible(true);	
 		setResizable(false);
