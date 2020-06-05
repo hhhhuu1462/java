@@ -61,6 +61,7 @@ public class CoffeeDAO {
 			conn =getConnection();
 			sql ="select password from login where id = ?";
 			pstmt =conn.prepareStatement(sql);
+			
 			pstmt.setString(1, id);
 
 			rs=pstmt.executeQuery(); // select¹®Àº executeQuery()
@@ -128,7 +129,7 @@ public class CoffeeDAO {
 	public int delete (String menu) throws Exception {
 		int result = -1;
 
-		Connection conn = this.getConnection();// ¿¬°á °´Ã¼
+		Connection conn = getConnection();// ¿¬°á °´Ã¼
 		PreparedStatement pstmt = null;// SQL ÇØ¼® °´Ã¼
 		String sql = "delete coffeemenu where menu = ?";
 

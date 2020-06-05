@@ -64,15 +64,18 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String id = textField.getText();
 				String pw = "";
+				// passwordfield는 string형으로 들어가지 않기 때문에 한 단어씩 char배열에 넣어준 후 string으로 형변환 시켜주어야 한다
 				char[] secret_pw  = passwordField.getPassword();
 				
 				CoffeeDAO coffeeDAO = new CoffeeDAO();
 				
 				for (char cha : secret_pw ) {
 					Character.toString(cha);
+					//pw 에 저장하기, pw 에 값이 비어있으면 저장, 값이 있으면 이어서 저장하는 삼항연산자
 					pw += (pw.equals("")) ? ""+cha+"" : ""+cha+"";
 				}
 				try {
+					// coffeeDAO.login(id, pw) 결과값이 1이면
 					if(coffeeDAO.login(id, pw) == 1) {
 						new Main();
 						dispose();

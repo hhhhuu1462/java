@@ -49,6 +49,7 @@ public class Main extends JFrame {
 		setVisible(true);
 	}
 
+	// 메뉴바 만들기
 	public void createMenuBar() {
 		JMenuBar mb = new JMenuBar(); 
 		JMenuItem [] menuItem = new JMenuItem [1];
@@ -98,7 +99,7 @@ public class Main extends JFrame {
 		mb.add(editMenu);
 	}
 
-	// file 메뉴바
+	// file 메뉴바 : exit메뉴
 	class FileMenuActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -111,7 +112,7 @@ public class Main extends JFrame {
 		}
 	}
 
-	// edit 메뉴바
+	// file 메뉴바 : edit 메뉴
 	class EditMenuActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -121,6 +122,7 @@ public class Main extends JFrame {
 				new CreateMenu();	
 				break;
 			case "삭제" :
+				// InputDialog에 적은 메뉴를 delete값에 저장
 				String delete = (String) JOptionPane.showInputDialog("삭제할 메뉴를 적어주세요");
 				CoffeeDAO coffeeDAO = new CoffeeDAO();
 				String menu = delete;
@@ -154,6 +156,7 @@ public class Main extends JFrame {
 		}
 	}
 
+	// main창 핵심 메소드
 	public void launched() {
 		getContentPane().setLayout(null);
 		menuTab.setBounds(394, 24, 476, 371);
@@ -166,6 +169,7 @@ public class Main extends JFrame {
 		
 		CoffeeDAO coffeeDAO = new CoffeeDAO();
 		rowData = coffeeDAO.GetHotCoffee();
+		// hotcoffee에 대한 이름과 가격 db를 통해 받아오기
 		for (int i = 0; i < HotCoffee.length; i++) {
 			if (i <= rowData.size()-1) {
 				HotCoffee[i] = rowData.get(i).getMenu();
@@ -177,6 +181,7 @@ public class Main extends JFrame {
 		}
 		
 		rowData = coffeeDAO.GetIceCoffee();
+		// icecoffee에 대한 이름과 가격 db를 통해 받아오기
 		for (int i = 0; i < ICECoffee.length; i++) {
 			if (i <= rowData.size()-1) {
 				ICECoffee[i] = rowData.get(i).getMenu();
@@ -188,6 +193,7 @@ public class Main extends JFrame {
 		}
 		
 		rowData = coffeeDAO.GetBeverageCoffee();
+		// beverage에 대한 이름과 가격 db를 통해 받아오기
 		for (int i = 0; i < ShakeFlatchino.length; i++) {
 			if (i <= rowData.size()-1) {
 				ShakeFlatchino[i] = rowData.get(i).getMenu();
@@ -199,13 +205,14 @@ public class Main extends JFrame {
 		}
 		
 		// HotCoffeeBtn
+		
 		panel1 = new JPanel();
 		panel1.setLayout(new GridLayout(4, 4, 10, 10));		
 		HotCoffeeBtn = new JButton[11];
 		coffeeDAO = new CoffeeDAO();
 		rowData = coffeeDAO.GetHotCoffee();
 		for (int i = 0; i < HotCoffeeBtn.length; i++) {	
-			
+			// rowData는 벡터이기 때문에 1부터 시작하므로 -1을 해주어야 값이 맞음
 			if (i <= rowData.size()-1) {
 				HotCoffeeBtn[i] = new JButton(rowData.get(i).getMenu());
 				panel1.add(HotCoffeeBtn[i]);	
@@ -255,6 +262,7 @@ public class Main extends JFrame {
 		panel4.setLayout(new GridLayout(1, 6, 10, 10));		
 		String[] operation = {"매출", "결제", "할인", "선택취소", "전체취소"};
 		JButton[] inventoryManagement = new JButton[5];
+		//운영버튼 생성
 		for (int i = 0; i < inventoryManagement.length; i++) {
 			inventoryManagement[i] = new JButton(operation[i]);
 			panel4.add(inventoryManagement[i]);
@@ -297,6 +305,7 @@ public class Main extends JFrame {
 				for(int i=0;i<rowCont;i++) {
 					pay[i] = (int)menuTable.getValueAt(i, 2);
 				}
+				// 
 				int sum = IntStream.of(pay).sum();
 				tf.setText(String.valueOf(" 총 금액 : " + sum + "원"));
 				tf.setFont(new Font("고딕", Font.BOLD, 15));
@@ -330,6 +339,7 @@ public class Main extends JFrame {
 									}									
 									JOptionPane.showMessageDialog(null, "결제되었습니다. 거스름돈은 " + (paymoney - sum) + "원 입니다", "결제창", JOptionPane.PLAIN_MESSAGE);
 									payment.dispose();
+									// 테이블값 초기화
 									DefaultTableModel model = (DefaultTableModel)menuTable.getModel();
 									model.setNumRows(0);
 									tf.setText("");
