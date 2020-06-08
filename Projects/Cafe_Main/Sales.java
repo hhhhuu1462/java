@@ -145,6 +145,9 @@ public class Sales extends JFrame {
 			public void actionPerformed(ActionEvent e) {//테이블에 메뉴별 판매리스트
 				rowData =coffeeDAO.GetAllSellList();
 				scrollPane.setVisible(false);
+				
+				// 첫 번째 매개변수는 테이블에 들어갈 데이터이며, 오브젝트 타입의 2차원 배열을 받는다. 
+				// 두 번째 매개변수는 테이블의 첫 번째 행에 들어가 데이터를 구분 짓는 열의 이름이 들어간다.
 				table2 = new JTable(coffeeDAO.makelistArr(coffeeDAO.Getsellcount()),sellName);
 				table2.setRowHeight(38);
 				table2.setBounds(1, 27, 450, 288);

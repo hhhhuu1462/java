@@ -16,12 +16,15 @@ public class CoffeeDAO {
 
 	private String driver = "oracle.jdbc.driver.OracleDriver" ;
 	private String url = "jdbc:oracle:thin:@localhost:1521:xe" ;
-	private String username = "scott" ;
-	private String password = "tiger" ;
+	private String username = "scott" ; // db id
+	private String password = "tiger" ; // db password
+	// 데이터베이스와 연결하는 객체 Connection
 	private Connection conn = null ;	
 
 	public CoffeeDAO() {		
 		try {
+			// DriverManager는 Class.forName( ) 메소드를 통해서 생성
+			// 1. JDBC 드라이버 로딩
 			Class.forName(driver) ;			
 		} catch (ClassNotFoundException e) {
 			System.out.println("클래스가 발견되지 않습니다(jar 파일 누락)"); 
@@ -31,6 +34,8 @@ public class CoffeeDAO {
 
 	private Connection getConnection() {
 		try {
+			// DriverManager.getConnection(연결문자열, DB_ID, DB_PW) 으로 Connection 객체를 생성
+			// 2. Connection 생성
 			conn = DriverManager.getConnection(url, username, password) ;
 		} catch (SQLException e) {
 			System.out.println("커넥션 생성 오류");
@@ -41,6 +46,7 @@ public class CoffeeDAO {
 
 	private void closeConnection() {
 		try {
+			 //Connection 사용 후 Close
 			if(conn != null) {conn.close(); }
 		} catch (Exception e2) {
 			e2.printStackTrace(); 
@@ -51,10 +57,16 @@ public class CoffeeDAO {
 	public int login(String id, String passwd) throws Exception{
 
 		Connection conn= null;
+		
+		// statement와의 차이점 : 캐시의 유무
+		// 반복적인 쿼리 수행에 대해선 PreparedStatement가 성능이 좋음
+		// SQL 구문을 실행하는 역할
+		// 스스로 sql문을 이해하는 것이 아닌 전달하는 역할 -> 텍스트 sql 호출
 		PreparedStatement pstmt = null;
+		
 		ResultSet rs =null;
-		String sql="";
-		String password="";
+		String sql;
+		String password;
 		int result = -1;
 
 		try{
@@ -67,7 +79,9 @@ public class CoffeeDAO {
 			rs=pstmt.executeQuery(); // select문은 executeQuery()
 
 			if(rs.next()){
+				// select문이 실행되어 password를 찾았다면 password변수에 삽입 
 				password =rs.getString("password");
+				// 입력한 passwd와 찾은 password가 일치한다면
 				if(password.equals(passwd)) {
 					result=1; //인증성공
 				} else {
@@ -87,7 +101,7 @@ public class CoffeeDAO {
 	}
 
 	// 메뉴 추가
-	public int menuAdd(String menuCode, String menuName, int menuPrice){//콘솔창에서 데이터를 입력받아 객체 생성
+	public int menuAdd(String menuCode, String menuName, int menuPrice){
 		int result =-1;
 		PreparedStatement pstmt =null;
 		ResultSet rs = null;		
@@ -101,6 +115,7 @@ public class CoffeeDAO {
 			pstmt.setString(2, menuName);
 			pstmt.setInt(3, menuPrice);
 
+			// executeUpdate : insert / delete / update 관련 구문에서는 반영된 레코드의 건수를 반환
 			result = pstmt.executeUpdate(); // insert문 : executeUpdate()
 			conn.commit();	// 반드시 commit()
 		} catch (SQLException e) {
@@ -127,14 +142,14 @@ public class CoffeeDAO {
 
 	// 메뉴 삭제
 	public int delete (String menu) throws Exception {
-		int result = -1;
-
-		Connection conn = getConnection();// 연결 객체
-		PreparedStatement pstmt = null;// SQL 해석 객체
-		String sql = "delete coffeemenu where menu = ?";
+		int result = -1;		
+		PreparedStatement pstmt = null;		
 
 		try {
+			conn = getConnection();
+			String sql = "delete coffeemenu where menu = ?";
 			pstmt = conn.prepareStatement(sql); // SQL 해석
+			
 			pstmt.setString(1, menu);
 			
 			if(pstmt.executeUpdate()==1){
@@ -144,6 +159,7 @@ public class CoffeeDAO {
 			}
 
 			result = pstmt.executeUpdate(); // delete문 : executeUpdate()
+			
 			conn.commit(); // 반드시 commit()
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -198,9 +214,12 @@ public class CoffeeDAO {
 		}
 
 		return result;
-	}//coffeeadd
+	}
 
 	// 현금 판매한 매출의 합
+	// 자바의 배열은 고정 길이를 사용하기에 한 번 정한 크기의 배열은 절대 변경 불가능하다.
+	// 본 프로그램과 같은 경우에는 고정배열을 사용하면 의미가 없기 때문에 
+	// 벡터를 사용해 동적인 길이로 여러 데이터를 저장할 수 있는 Vectoor 클래스를 사용하였다.
 	public Vector<Info> GetTotalCash() {
 		PreparedStatement pstmt = null ;
 		ResultSet rs = null ;
@@ -213,6 +232,7 @@ public class CoffeeDAO {
 
 			rs = pstmt.executeQuery() ;
 
+			// 값이 하나가 아니기 때문에 while문을 사용하여 모든 값 반영
 			while(rs.next()){
 				Info totalCash = new Info() ;
 				totalCash.setTotalCash(rs.getInt("sum(price)"));					
@@ -232,7 +252,7 @@ public class CoffeeDAO {
 			}
 		}
 		return lists ;
-	}//GetIceCoffee
+	}
 
 	// 카드 판매 한 매출의 합
 	public Vector<Info> GetTotalCard() {
@@ -267,8 +287,8 @@ public class CoffeeDAO {
 			}
 		}
 		return lists ;
-	}//GetIceCoffee
-
+	}
+	
 	// 메뉴코드가 H로 시작하는 메뉴 리스트 (hot coffee)
 	public Vector<Info> GetHotCoffee() {
 		PreparedStatement pstmt = null ;
@@ -301,7 +321,7 @@ public class CoffeeDAO {
 			}
 		}
 		return lists ;
-	}//GetHotCoffee
+	}
 
 	// 메뉴코드가 I로 시작하는 메뉴 리스트 (ice coffee)
 	public Vector<Info> GetIceCoffee() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
@@ -336,7 +356,7 @@ public class CoffeeDAO {
 			}
 		}
 		return lists ;
-	}//GetIceCoffee
+	}
 
 	// 메뉴코드가 B로 시작하는 메뉴 리스트 (beverage coffee)
 	public Vector<Info> GetBeverageCoffee() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
@@ -371,7 +391,7 @@ public class CoffeeDAO {
 			}
 		}
 		return lists ;
-	}//GetBeverageCoffee
+	}
 
 	// 메뉴별 판매량
 	public  Vector<Info> Getsellcount(){
@@ -409,11 +429,10 @@ public class CoffeeDAO {
 			}
 		}
 		return lists ;
-	}//Getsellcount
+	}
 
 	// 매출리스트
-	public Vector<Info> GetAllSellList() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
-		//모든 상품 목록들을 리턴한다.
+	public Vector<Info> GetAllSellList() {
 		PreparedStatement pstmt = null ;
 		ResultSet rs = null ;
 		String sql = "select * from coffee" ;
@@ -447,13 +466,13 @@ public class CoffeeDAO {
 			}
 		}
 		return lists ;
-	}//GetAllSellList
+	}
 
 	// 당일 카드매출
-	public Vector<Info> currentCellCard() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
-		//모든 상품 목록들을 리턴한다.
+	public Vector<Info> currentCellCard() {		
 		PreparedStatement pstmt = null ;
 		ResultSet rs = null ;
+		// SUBSTR(ordertime,1,13) : ordertime 속성의 첫번째부터 13번째 글자까지만 나타내어라
 		String sql = "select sum(price), SUBSTR(ordertime,1,13) from coffee where payway like '카드' group by SUBSTR(ordertime,1,13)";
 		Vector<Info> lists = new Vector<Info>();
 		try {
@@ -482,11 +501,10 @@ public class CoffeeDAO {
 			}
 		}
 		return lists ;
-	}//GetIceCoffee
+	}
 
 	// 당일 현금매출
-	public Vector<Info> currentCellCash() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
-		//모든 상품 목록들을 리턴한다.
+	public Vector<Info> currentCellCash() {
 		PreparedStatement pstmt = null ;
 		ResultSet rs = null ;
 		String sql = "select sum(price), SUBSTR(ordertime,1,13) from coffee where payway like '현금' group by SUBSTR(ordertime,1,13)";
@@ -517,11 +535,10 @@ public class CoffeeDAO {
 			}
 		}
 		return lists ;
-	}//GetIceCoffee
+	}
 
 	// 당일 전체 매출
-	public Vector<Info> currentCellTotal() {//db에서 데이터를 받아서 벡터로 반환하는 메소드
-		//모든 상품 목록들을 리턴한다.
+	public Vector<Info> currentCellTotal() {
 		PreparedStatement pstmt = null ;
 		ResultSet rs = null ;
 		String sql = "select sum(price), SUBSTR(ordertime,1,13) from coffee group by SUBSTR(ordertime,1,13)";
@@ -552,7 +569,7 @@ public class CoffeeDAO {
 			}
 		}
 		return lists ;
-	}//GetIceCoffee	
+	}
 
 	//벡터를 받아서 매출리스트를 2차원 배열로 만들어주는 메소드
 	public Object[][] makeArr(Vector<Info> lists){
@@ -569,7 +586,7 @@ public class CoffeeDAO {
 
 		return coffeearr;
 
-	}//makeArr
+	}
 
 	//벡터를 받아서 메뉴별 판대량을 2차원 배열로 만들어주는 메소드
 	public Object[][] makelistArr(Vector<Info> lists){
@@ -583,6 +600,6 @@ public class CoffeeDAO {
 
 		return coffeearr;
 
-	}//makeArr
+	}
 
 }

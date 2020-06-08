@@ -204,8 +204,7 @@ public class Main extends JFrame {
 			}
 		}
 		
-		// HotCoffeeBtn
-		
+		// HotCoffeeBtn		
 		panel1 = new JPanel();
 		panel1.setLayout(new GridLayout(4, 4, 10, 10));		
 		HotCoffeeBtn = new JButton[11];
