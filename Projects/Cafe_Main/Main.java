@@ -16,7 +16,7 @@ public class Main extends JFrame {
 	Vector<Info> rowData = null;
 	CoffeeDAO coffeeDAO = null;
 
-	JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
+	JPanel panel1, panel2, panel3, panel4, panel5, panel6;
 	JTabbedPane menuTab = new JTabbedPane();  //JTabbedPane생성
 	JTextField tf = new JTextField(); // 총 금액
 	JButton[] HotCoffeeBtn, ICECoffeeBtn, ShakeFlatchinoBtn; // 메뉴 버튼	
@@ -171,7 +171,7 @@ public class Main extends JFrame {
 		rowData = coffeeDAO.GetHotCoffee();
 		// hotcoffee에 대한 이름과 가격 db를 통해 받아오기
 		for (int i = 0; i < HotCoffee.length; i++) {
-			if (i <= rowData.size()-1) {
+			if (i < rowData.size()) {
 				HotCoffee[i] = rowData.get(i).getMenu();
 				hotCoffeePrice[i] = rowData.get(i).getPrice();
 			} else {
@@ -183,7 +183,7 @@ public class Main extends JFrame {
 		rowData = coffeeDAO.GetIceCoffee();
 		// icecoffee에 대한 이름과 가격 db를 통해 받아오기
 		for (int i = 0; i < ICECoffee.length; i++) {
-			if (i <= rowData.size()-1) {
+			if (i < rowData.size()) {
 				ICECoffee[i] = rowData.get(i).getMenu();
 				iceCoffeePrice[i] = rowData.get(i).getPrice();
 			} else {
@@ -195,7 +195,7 @@ public class Main extends JFrame {
 		rowData = coffeeDAO.GetBeverageCoffee();
 		// beverage에 대한 이름과 가격 db를 통해 받아오기
 		for (int i = 0; i < ShakeFlatchino.length; i++) {
-			if (i <= rowData.size()-1) {
+			if (i < rowData.size()) {
 				ShakeFlatchino[i] = rowData.get(i).getMenu();
 				shakeFlatchinoPrice[i] = rowData.get(i).getPrice();
 			} else {
@@ -276,10 +276,10 @@ public class Main extends JFrame {
 		});
 
 		// 결제 방식
-		panel7 = new JPanel();
-		panel7.setBounds(26, 294, 353, 37);
-		getContentPane().add(panel7);
-		panel7.setLayout(null);
+		panel6 = new JPanel();
+		panel6.setBounds(26, 294, 353, 37);
+		getContentPane().add(panel6);
+		panel6.setLayout(null);
 
 		JLabel payWay = new JLabel("결제 방식");
 		payWay.setFont(new Font("고딕", Font.BOLD, 15));
@@ -288,9 +288,9 @@ public class Main extends JFrame {
 		cash.setBounds(125, 5, 76, 23);
 		JRadioButton card = new JRadioButton("카드");
 		card.setBounds(212, 5, 76, 23);
-		panel7.add(payWay);
-		panel7.add(cash);
-		panel7.add(card);	
+		panel6.add(payWay);
+		panel6.add(cash);
+		panel6.add(card);	
 		ButtonGroup  group = new ButtonGroup(); 
 		group.add(card);
 		group.add(cash);
@@ -304,8 +304,8 @@ public class Main extends JFrame {
 				for(int i=0;i<rowCont;i++) {
 					pay[i] = (int)menuTable.getValueAt(i, 2);
 				}
-				// 
-				int sum = IntStream.of(pay).sum();
+				IntStream intStream = IntStream.of(pay);
+				int sum = intStream.sum();
 				tf.setText(String.valueOf(" 총 금액 : " + sum + "원"));
 				tf.setFont(new Font("고딕", Font.BOLD, 15));
 
@@ -484,12 +484,12 @@ public class Main extends JFrame {
 		}
 
 		// 총 금액
-		panel6 = new JPanel();
-		panel6.setBounds(26, 337, 353, 58);
-		getContentPane().add(panel6);
-		panel6.setLayout(null);
+		panel5 = new JPanel();
+		panel5.setBounds(26, 337, 353, 58);
+		getContentPane().add(panel5);
+		panel5.setLayout(null);
 		tf.setBounds(0, 0, 353, 58);
-		panel6.add(tf);
+		panel5.add(tf);
 
 	}
 	

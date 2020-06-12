@@ -219,7 +219,7 @@ public class CoffeeDAO {
 	// 현금 판매한 매출의 합
 	// 자바의 배열은 고정 길이를 사용하기에 한 번 정한 크기의 배열은 절대 변경 불가능하다.
 	// 본 프로그램과 같은 경우에는 고정배열을 사용하면 의미가 없기 때문에 
-	// 벡터를 사용해 동적인 길이로 여러 데이터를 저장할 수 있는 Vectoor 클래스를 사용하였다.
+	// 벡터를 사용해 동적인 길이로 여러 데이터를 저장할 수 있는 Vector 클래스를 사용하였다.
 	public Vector<Info> GetTotalCash() {
 		PreparedStatement pstmt = null ;
 		ResultSet rs = null ;
@@ -411,7 +411,7 @@ public class CoffeeDAO {
 			while(rs.next()){
 				Info coffee = new Info() ;
 				coffee.setMenu (rs.getString("menu"));
-				coffee.setPrice( rs.getInt("count(*)") ); 
+				coffee.setCount( rs.getInt("count(*)") ); 
 
 				lists.add( coffee ) ;
 			}
@@ -595,7 +595,7 @@ public class CoffeeDAO {
 
 		for(int i=0; i<lists.size();i++){
 			coffeearr[i][0]=lists.get(i).getMenu();
-			coffeearr[i][1]=lists.get(i).getPrice();
+			coffeearr[i][1]=lists.get(i).getCount();
 		}		
 
 		return coffeearr;

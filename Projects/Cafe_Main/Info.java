@@ -14,7 +14,10 @@ public class Info extends Object {
 	String payway;
 	int totalCash;
 	int totalCard;
+	int count;
 
+	public int getCount() {	return count;}
+	public void setCount(int count) {this.count = count;}
 	public int getTotalCash() {	return totalCash;}
 	public void setTotalCash(int totalCash) {this.totalCash = totalCash;}
 	public int getTotalCard() {return totalCard;}
@@ -32,6 +35,6 @@ public class Info extends Object {
 	public String getId() {return id;}
 	public void setId(String id) {this.id = id;}
 	public String getPw() {return pw;}
-	public void setPw(String pw) {this.pw = pw;}	
+	public void setPw(String pw) {this.pw = pw;}
 	
 }
